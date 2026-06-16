@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neplytegr.cz - Profesionální webové služby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        nav a {
+            color: #b8b8b8;
+            text-decoration: none;
+            margin-left: 2.5rem;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 30px) rotate(180deg); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: #ffd700;
+        }
+
+        .price-highlight {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 8px;
+            padding: 2rem 3rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .price-label {
+            font-size: 0.9rem;
+            color: #b8b8b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-unit {
+            font-size: 1rem;
+            color: #b8b8b8;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #d0d0d0;
+            margin: 2rem 0;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #0a0a0a;
+            border: 2px solid #ffd700;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .features {
+            max-width: 1200px;
+            margin: 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: #b8b8b8;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            color: #b8b8b8;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 215, 0, 0.02) 100%);
+            padding: 6rem 2rem;
+            margin-top: 6rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .pricing-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pricing-note {
+            background: rgba(255, 215, 0, 0.15);
+            border-left: 4px solid #ffd700;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .pricing-note h4 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .pricing-note p {
+            color: #d0d0d0;
+            margin: 0;
+        }
+
+        .footer {
+            background: #000000;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #888;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+        }
+
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .price-amount {
+                font-size: 2.5rem;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            nav a {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">NEPLYTEGR</div>
+            <nav>
+                <a href="#features">Služby</a>
+                <a href="#pricing">Ceny</a>
+                <a href="#contact">Kontakt</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Profesionální <span>webové řešení</span></h1>
+            
+            <div class="price-highlight">
+                <div class="price-label">Konzultace a design</div>
+                <div class="price-amount">5 000 Kč</div>
+                <div class="price-unit">za minutu online schůzky</div>
+            </div>
+
+            <p>Jsme specialisté na tvorbu vysokovýkonných webových aplikací a estrategie digitálního růstu. Přesná cena projektu vám bude sdělena po iniciální schůzce.</p>
+
+            <div class="cta-buttons">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScX4QnY5fVZqhGL-oESM7NM4eQI57LLsM8kHji8BjfpIMINKg/viewform?usp=publish-editor" class="btn btn-primary" target="_blank">Objednat konzultaci</a>
+                <button class="btn btn-secondary" onclick="alert('Přečíst více - přesměrování na detaily')">Více informací</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">Naše služby</h2>
+        <p class="section-subtitle">Komplexní řešení pro váš digitální úspěch</p>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Web design</h3>
+                <p>Moderní, funkční a krásný design vašich webových stránek vytvoříme s ohledem na UX a konverze.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>Vývoj webů</h3>
+                <p>Profesionální vývoj s nejnovějšími technologiemi. React, Node.js, Python – cokoliv potřebujete.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>SEO optimalizace</h3>
+                <p>Zvýšíme vaši viditelnost v Google a ostatních vyhledávačích. Organický růst přenosů zaručen.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Strategie</h3>
+                <p>Digitální strategie tailored na váš byznys model. Analýza trhu, konkurence a optimální cesta vpřed.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobilní řešení</h3>
+                <p>Responzivní design a native aplikace pro iOS a Android. Váš web bude perfektní všude.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔧</div>
+                <h3>Údržba & support</h3>
+                <p>Dlouhodobá podpora vašeho webu. Aktualizace, bezpečnost a optimalizace bez starostí.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+        <div class="pricing-content">
+            <h2 class="section-title">Jak fungují naše ceny</h2>
+            <p class="section-subtitle">Transparentní ceník pro vaši jistotu</p>
+
+            <div class="pricing-note">
+                <h4>💼 Model ocenění</h4>
+                <p>Naše online konzultace stojí 5 000 Kč za minutu. Tímto tempem se vytvářejí vaše projekty na míru. Přesná cena projektu a časový odhad dostanete po iniciální schůzce, kdy probereme váš požadavky a cíle.</p>
+            </div>
+
+            <div class="pricing-note">
+                <h4>✅ Proces</h4>
+                <p>1. Iniciální konzultace (bez poplatku) – domluvíme si detaily. 2. Kalkulace – vám bude sdělena cena. 3. Realizace – plný profesionální servis. 4. Podpora – po dokončení jsme tu pro vás.</p>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScX4QnY5fVZqhGL-oESM7NM4eQI57LLsM8kHji8BjfpIMINKg/viewform?usp=publish-editor" class="btn btn-primary" target="_blank">Objednat schůzku</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contact">
+        <p><strong>Neplytegr.cz</strong> – Profesionální webové služby</p>
+        <p>📧 <a href="mailto:info@neplytegr.cz">info@neplytegr.cz</a></p>
+        <p>Vysoká kvalita, férové ceny, spolehlivost</p>
+        <p style="color: #555; margin-top: 2rem;">© 2024 Neplytegr.cz. Všechna práva vyhrazena.</p>
+    </footer>
+</body>
+</html>
