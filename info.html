@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Více informací - Neplytegr.cz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        nav a {
+            color: #b8b8b8;
+            text-decoration: none;
+            margin-left: 2.5rem;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+
+        .back-button {
+            color: #b8b8b8;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .back-button:hover {
+            color: #ffd700;
+        }
+
+        .content-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .page-subtitle {
+            color: #b8b8b8;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+            padding-bottom: 1rem;
+        }
+
+        .section-text {
+            color: #d0d0d0;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(255, 215, 0, 0.1);
+            border-left: 4px solid #ffd700;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .highlight-box h4 {
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .highlight-box p {
+            color: #d0d0d0;
+            margin: 0.5rem 0;
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .step {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .step:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            background: #ffd700;
+            color: #0a0a0a;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            color: #ffd700;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .step p {
+            color: #b8b8b8;
+            font-size: 0.95rem;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .pricing-table th {
+            background: rgba(255, 215, 0, 0.15);
+            color: #ffd700;
+            padding: 1rem;
+            text-align: left;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            font-weight: 600;
+        }
+
+        .pricing-table td {
+            padding: 1rem;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            color: #d0d0d0;
+        }
+
+        .pricing-table tr:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        .faq {
+            margin: 2rem 0;
+        }
+
+        .faq-item {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            padding: 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 215, 0, 0.15);
+        }
+
+        .faq-answer {
+            padding: 1.5rem;
+            color: #d0d0d0;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-toggle.active {
+            transform: rotate(180deg);
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .cta-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #d0d0d0;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #0a0a0a;
+            border: 2px solid #ffd700;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+        }
+
+        .footer {
+            background: #000000;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #888;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+        }
+
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .section-heading {
+                font-size: 1.5rem;
+            }
+
+            nav a {
+                display: none;
+            }
+
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-table {
+                font-size: 0.9rem;
+            }
+
+            .pricing-table th, .pricing-table td {
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="https://neplytegr.cz" class="logo">NEPLYTEGR</a>
+            <nav>
+                <a href="https://neplytegr.cz#features">Služby</a>
+                <a href="https://neplytegr.cz#pricing">Ceny</a>
+                <a href="https://neplytegr.cz#contact">Kontakt</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content-wrapper">
+        <div style="margin-bottom: 3rem;">
+            <a href="https://neplytegr.cz" class="back-button">← Zpět na hlavní stránku</a>
+        </div>
+
+        <h1 class="page-title">Více informací</h1>
+        <p class="page-subtitle">Detailní přehled našich služeb a procesů</p>
+
+        <!-- Jak fungují naše služby -->
+        <div class="section">
+            <h2 class="section-heading">Jak fungují naše služby</h2>
+            <p class="section-text">
+                Neplytegr.cz je speciální agentura zaměřená na profesionální webové řešení. Naše práce začíná hlubokým porozuměním vašim cílům a potřebám. Každý projekt je unikátní a my se k němu přistupujeme individuálně, nikoli podle šablony.
+            </p>
+            <p class="section-text">
+                Naše konzultace vám pomůže pochopit, co je pro váš byznys nejlepší řešení. Pracujeme s nejnovějšími technologiemi a osvědčenými metodami. Garantujeme kvalitu, spolehlivost a dlouhodobou podporu.
+            </p>
+        </div>
+
+        <!-- Proces -->
+        <div class="section">
+            <h2 class="section-heading">Náš proces</h2>
+            <p class="section-text">Spolupráce s námi probíhá v čtyřech jasných fázích:</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Iniciální konzultace</h3>
+                    <p>Společně si probereme vaše požadavky, cíle a vizi. Tato konzultace je zcela bez poplatku a bez závazku.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Analýza a kalkulace</h3>
+                    <p>Analyzujeme váš projekt a vytvoříme detailní odhad. Sdělíme vám přesnou cenu, časový plán a rozsah práce.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Realizace</h3>
+                    <p>Realizujeme váš projekt podle dohody. During realizace máte přístup k průběhu a místu setkání během online schůzek.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Podpora</h3>
+                    <p>Po spuštění vám poskytujeme dlouhodobou podporu, údržbu a optimalizaci. Jsme tu pro vás kdykoliv.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ceny -->
+        <div class="section">
+            <h2 class="section-heading">Cenový model</h2>
+            <p class="section-text">
+                Naš cenový model je jednoduchý a transparentní:
+            </p>
+
+            <div class="highlight-box">
+                <h4>Iniciální konzultace</h4>
+                <p><strong>Zdarma</strong> – Bez poplatku, bez závazku. Probíráme vaše požadavky a cíle.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Následné konzultace a práce</h4>
+                <p><strong>5 000 Kč za minutu</strong> – Po iniciální konzultaci jsou všechny online schůzky s námi účtovány tempem 5 000 Kč za minutu.</p>
+            </div>
+
+            <p class="section-text">
+                Tímto způsobem platíte přesně za dobu, kterou s námi strávíte. Není žádných skrytých poplatků ani překvapení. Cena je vyčíslena na konci každého měsíce.
+            </p>
+        </div>
+
+        <!-- Často kladené otázky -->
+        <div class="section">
+            <h2 class="section-heading">Často kladené otázky</h2>
+            
+            <div class="faq">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Kolik stojí iniciální konzultace?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Iniciální konzultace je zcela <strong>bez poplatku</strong>. Chceme si s vámi popovídat o vašich potřebách bez jakéhokoliv finančního rizika.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Jak se počítá čas online schůzek?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Čas se počítá od začátku schůzky do konce. Fakturujeme 5 000 Kč za každou začatou minutu. Např. 5minut schůzka = 25 000 Kč, 7minut schůzka = 35 000 Kč.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Máte minimální hodinový poplatek?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ne, nepočítáme s minimálními hodnotami. Platíte přesně za to, kolik času potřebujete. I 2minutová schůzka bude mít odpovídající cenu.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Jaké technologie používáte?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Používáme nejnovější technologie na trhu. React, Vue.js, Node.js, Python, AWS, Google Cloud, a další. Vždy volíme technologii, která nejlépe vyhovuje vašemu projektu.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Jaké je vaše portfolio?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Pracujeme s klienty z různých oborů – e-commerce, SaaS, marketing, finance, zdravotnictví a dalších. Portfolio se vám rád ukáže během iniciální konzultace. Máme zkušenosti s projekty od malých startupů až po velké korporace.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        <span>Jak dlouho trvá projekt?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Doba trvání projektu se liší v závislosti na rozsahu a složitosti. Jednoduché webové stránky mohou být hotové za týdny, komplexní aplikace mohou trvat měsíce. Přesný odhad dostanete po iniciální konzultaci.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proč si vybrat nás -->
+        <div class="section">
+            <h2 class="section-heading">Proč si vybrat Neplytegr.cz</h2>
+            
+            <div class="highlight-box">
+                <h4>🎯 Specialisté na webová řešení</h4>
+                <p>Jsme zaměření čistě na webový vývoj a design. To znamená, že jsme v tom extrémně dobří.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💰 Transparentní ceny</h4>
+                <p>Žádné skryté poplatky, žádná překvapení. Víte přesně, za co platíte.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📈 Orientace na výsledky</h4>
+                <p>Nás zajímá váš úspěch. Pracujeme tak, aby váš web generoval hodnotu pro váš byznys.</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🤝 Dlouhodobá podpora</h4>
+                <p>Vztah s klienty nás zajímá více než jednorázový projekt. Jsme tu pro vás na dlouhou dobu.</p>
+            </div>
+        </div>
+
+        <!-- Call to action -->
+        <div class="cta-section">
+            <h3>Jste připraveni começar?</h3>
+            <p>Objednejte si bezplatnou iniciální konzultaci a povidam si o vašem projektu.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScX4QnY5fVZqhGL-oESM7NM4eQI57LLsM8kHji8BjfpIMINKg/viewform?usp=publish-editor" class="btn btn-primary" target="_blank">Objednat konzultaci</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><strong>Neplytegr.cz</strong> – Profesionální webové služby</p>
+        <p>📧 <a href="mailto:info@neplytegr.cz">info@neplytegr.cz</a></p>
+        <p>Vysoká kvalita, férové ceny, spolehlivost</p>
+        <p style="color: #555; margin-top: 2rem;">© 2026 Neplytegr.cz. Všechna práva vyhrazena.</p>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const toggle = element.querySelector('.faq-toggle');
+            
+            // Zavřít všechny ostatní odpovědi
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                if (item !== answer) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            document.querySelectorAll('.faq-toggle').forEach(item => {
+                if (item !== toggle) {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Otevřít/zavřít aktuální odpověď
+            answer.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
