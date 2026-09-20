@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sondy - Již brzy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+        }
+
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        nav a {
+            color: #b8b8b8;
+            text-decoration: none;
+            margin-left: 2.5rem;
+            font-size: 0.95rem;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 200px;
+            font-weight: 700;
+            color: #ffd700;
+            line-height: 0.9;
+            letter-spacing: -5px;
+            margin: 0;
+            word-break: break-word;
+        }
+
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section h3 {
+            color: #ffd700;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section p {
+            color: #d0d0d0;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .section a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .section a:hover {
+            text-decoration: underline;
+        }
+
+        .price-box {
+            background: rgba(255, 215, 0, 0.15);
+            border-left: 4px solid #ffd700;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .price-box p {
+            color: #d0d0d0;
+            font-size: 1.2rem;
+        }
+
+        .price-box strong {
+            color: #ffd700;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #0a0a0a;
+            border: 2px solid #ffd700;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            background: #000000;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 80px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="https://neplytegr.cz" class="logo">NEPLYTEGR</a>
+            <nav>
+                <a href="https://neplytegr.cz">Domů</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Již brzy</h1>
+    </section>
+
+    <div class="content">
+        <div class="section">
+            <h3>Máte zájem?</h3>
+            
+            <p>📧 <a href="mailto:info@neplytegr.cz">info@neplytegr.cz</a></p>
+
+            <div class="price-box">
+                <p>Konzultace: <strong>5 000 Kč za minutu</strong></p>
+            </div>
+
+            <div class="buttons">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScX4QnY5fVZqhGL-oESM7NM4eQI57LLsM8kHji8BjfpIMINKg/viewform?usp=publish-editor" class="btn btn-primary" target="_blank">Objednat konzultaci</a>
+                <a href="https://neplytegr.cz" class="btn btn-secondary">Zpět na Neplytegr</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><strong>Neplytegr.cz</strong> – Profesionální webové služby</p>
+        <p>Vysoká kvalita, férové ceny, spolehlivost</p>
+    </footer>
+</body>
+</html>
