@@ -230,25 +230,10 @@
             overflow: hidden;
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
         .feature-card:hover {
             border-color: #ffd700;
             background: rgba(255, 215, 0, 0.08);
             transform: translateY(-5px);
-        }
-
-        .feature-card:hover::before {
-            left: 100%;
         }
 
         .feature-icon {
@@ -269,6 +254,121 @@
             line-height: 1.8;
             position: relative;
             z-index: 1;
+        }
+
+        .projects-section {
+            max-width: 1200px;
+            margin: 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .project-card p {
+            color: #b8b8b8;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-link {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: color 0.3s;
+        }
+
+        .project-link:hover {
+            color: #ffed4e;
+        }
+
+        .rental-section {
+            max-width: 1200px;
+            margin: 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .rental-box {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .rental-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #ffd700;
+            margin-bottom: 2rem;
+        }
+
+        .rental-box p {
+            color: #d0d0d0;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .rental-ad {
+            background: rgba(255, 215, 0, 0.15);
+            border: 3px dashed rgba(255, 215, 0, 0.4);
+            border-radius: 8px;
+            padding: 4rem 2rem;
+            margin: 2rem 0;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rental-ad-text {
+            font-size: 1.3rem;
+            color: #ffd700;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .rental-contact {
+            margin-top: 2rem;
+        }
+
+        .rental-contact a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .rental-contact a:hover {
+            color: #ffed4e;
         }
 
         .pricing-section {
@@ -364,6 +464,7 @@
             <div class="logo">NEPLYTEGR</div>
             <nav>
                 <a href="#features">Služby</a>
+                <a href="#projects">Projekty</a>
                 <a href="#pricing">Ceny</a>
                 <a href="#contact">Kontakt</a>
             </nav>
@@ -380,7 +481,7 @@
                 <div class="price-unit">za minutu online schůzky</div>
             </div>
 
-            <p>Jsme specialisté na tvorbu vysokovýkonných webových aplikací a estrategie digitálního růstu. Iniciální konzultace stojí <strong>těch 5 000 Kč za minutu</strong>. Objednejte si ji výplninou našeho formuláře.</p>
+            <p>Jsme specialisté na tvorbu vysokovýkonných webových aplikací a strategie digitálního růstu. Iniciální konzultace stojí <strong>5 000 Kč za minutu</strong>. Objednejte si ji vyplněním našeho formuláře.</p>
 
             <div class="cta-buttons">
                 <a href="https://docs.google.com/forms/d/e/1FAIpQLScX4QnY5fVZqhGL-oESM7NM4eQI57LLsM8kHji8BjfpIMINKg/viewform?usp=publish-editor" class="btn btn-primary" target="_blank">Objednat konzultaci</a>
@@ -397,13 +498,13 @@
             <div class="feature-card">
                 <div class="feature-icon">🎨</div>
                 <h3>Web design</h3>
-                <p>Moderní, funkční a krásný design vašich webových stránek vytvoříme s ohledem na UX a konverze.</p>
+                <p>Moderní, funkční a krásný design vašeho webu vytvoříme s ohledem na UX a konverze.</p>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">⚙️</div>
-                <h3>Vývoj webů</h3>
-                <p>Profesionální vývoj s nejnovějšími technologiemi. React, Node.js, Python – cokoliv potřebujete.</p>
+                <h3>Vývoj webu</h3>
+                <p>Profesionální vývoj s nejnovějšími technologiemi. React, Node.js, Python - cokoliv potřebujete.</p>
             </div>
 
             <div class="feature-card">
@@ -432,6 +533,45 @@
         </div>
     </section>
 
+    <section class="projects-section" id="projects">
+        <h2 class="section-title">Naše projekty</h2>
+        <p class="section-subtitle">Weby a aplikace které jsme vyvinuli</p>
+
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>Sondy</h3>
+                <p>Největší Česká firma zaměřena na vývoj nejlepších a nejlevnějších vibračních análních sond v celé Evropě.</p>
+                <a href="https://neplytegr.cz/sondy/index.html" class="project-link">Zobrazit projekt →</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Brzy další</h3>
+                <p>Připravujeme další projekty. Sledujte tento prostor pro nové a zajímavé řešení, která vyvíjíme pro naše klienty.</p>
+                <a href="#contact" class="project-link">Kontaktujte nás →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="rental-section">
+        <div class="rental-box">
+            <h2>Pronajměte si toto místo!</h2>
+            <p>Pronajmete si reklamní místo na vysoce navštěvovaném webu Neplytegr.cz s obřím prostorem pro vaši reklamu.</p>
+            
+            <div class="rental-ad">
+                <div class="rental-ad-text">
+                    Pronajmete si toto místo na:<br>
+                  <a href="https://neplytegr.cz/pronajem"><strong>neplytegr.cz/pronajem</strong></a>
+                </div>
+            </div>
+
+            <p><strong>Cena: 50 000 Kč za jeden den</strong></p>
+
+            <div class="rental-contact">
+                <p>Máte zájem? Napište nám na <a href="mailto:info@neplytegr.cz">info@neplytegr.cz</a></p>
+            </div>
+        </div>
+    </section>
+
     <section class="pricing-section" id="pricing">
         <div class="pricing-content">
             <h2 class="section-title">Jak fungují naše ceny</h2>
@@ -439,12 +579,12 @@
 
             <div class="pricing-note">
                 <h4>💼 Model ocenění</h4>
-                <p>Všechny konzultace včetně iniciální stojí <strong>těch 5 000 Kč za minutu</strong>. Nejdřív je potřeba vyplnit formulář a odsouhlasit si termín schůzky. Přesná cena projektu a časový odhad dostanete po schůzce, kdy probereme vaše požadavky a cíle.</p>
+                <p>Všechny konzultace včetně iniciální stojí <strong>5 000 Kč za minutu</strong>. Nejdřív je potřeba vyplnit formulář a odsouhlasit si termín schůzky. Přesná cena projektu a časový odhad dostanete po schůzce, kdy probereme vaše požadavky a cíle.</p>
             </div>
 
             <div class="pricing-note">
                 <h4>✅ Proces</h4>
-                <p>1. Vyplníte formulář – sjednotíme si detaily a termín. 2. Iniciální konzultace (těch 5 000 Kč/min) – probereme váš projekt. 3. Kalkulace – vám bude sdělena přesná cena. 4. Realizace – plný profesionální servis. 5. Podpora – po dokončení jsme tu pro vás.</p>
+                <p>1. Vyplníte formulář – sjednotíme si detaily a termín. 2. Iniciální konzultace (5 000 Kč/min) – probereme váš projekt. 3. Kalkulace – vám bude sdělena přesná cena. 4. Realizace – plný profesionální servis. 5. Podpora – po dokončení jsme tu pro vás.</p>
             </div>
 
             <div class="cta-buttons">
@@ -457,7 +597,7 @@
         <p><strong>Neplytegr.cz</strong> – Profesionální webové služby</p>
         <p>📧 <a href="mailto:info@neplytegr.cz">info@neplytegr.cz</a></p>
         <p>Vysoká kvalita, férové ceny, spolehlivost</p>
-        <p style="color: #555; margin-top: 2rem;">© 2024 Neplytegr.cz. Všechna práva vyhrazena.</p>
+        <p style="color: #555; margin-top: 2rem;">© 2026 Neplytegr.cz. Všechna práva vyhrazena.</p>
     </footer>
 </body>
 </html>
