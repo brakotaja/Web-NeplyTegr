@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0a08">
+    <meta name="description" content="Detektor lži od NeplyTegr. Napiš tvrzení a zjisti, jestli je pravda, nebo lež.">
+    <title>Detektor lži | NeplyTegr</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0b0a08;
+            --ink-raised: #14120e;
+            --ivory: #f1ead9;
+            --ivory-dim: #a89f8b;
+            --gold: #c9a96a;
+            --gold-bright: #ecd49a;
+            --truth: #7fcfa5;
+            --lie: #e0665f;
+            --serif: 'Cormorant Garamond', 'Times New Roman', serif;
+            --sans: 'Jost', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { background: var(--ink); }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            font-family: var(--sans);
+            font-weight: 300;
+            color: var(--ivory);
+            background:
+                radial-gradient(60rem 36rem at 12% -8%, rgba(201, 169, 106, 0.16), transparent 70%),
+                radial-gradient(40rem 30rem at 100% 100%, rgba(201, 169, 106, 0.07), transparent 70%),
+                var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* jemné zrno, aby černá nevypadala plošně */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.07;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        a, button, textarea { font: inherit; }
+
+        :focus-visible {
+            outline: 1px solid var(--gold-bright);
+            outline-offset: 4px;
+        }
+
+        header {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 2rem clamp(1.25rem, 5vw, 4rem);
+        }
+
+        .brand {
+            font-family: var(--serif);
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .back {
+            font-size: 0.9rem;
+            color: var(--ivory-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back:hover { color: var(--ivory); }
+
+        main {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            align-items: center;
+            gap: clamp(2rem, 6vw, 6rem);
+            padding: 1rem clamp(1.25rem, 5vw, 4rem) 3rem;
+            max-width: 84rem;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(3.6rem, 9vw, 8rem);
+            line-height: 0.92;
+            letter-spacing: -0.015em;
+            color: var(--ivory);
+        }
+
+        .lede {
+            margin-top: 2rem;
+            max-width: 26rem;
+            font-size: 1.1rem;
+            line-height: 1.65;
+            color: var(--ivory-dim);
+        }
+
+        /* panel */
+        .panel {
+            position: relative;
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            background: linear-gradient(160deg, rgba(236, 212, 154, 0.07), rgba(236, 212, 154, 0.015) 40%, rgba(20, 18, 14, 0.7));
+            border: 1px solid rgba(201, 169, 106, 0.28);
+            border-radius: 2px;
+            box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(236, 212, 154, 0.12);
+            min-height: 22rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+
+        .panel[hidden], [hidden] { display: none !important; }
+
+        label {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--ivory-dim);
+            margin-bottom: 0.9rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 9rem;
+            resize: none;
+            padding: 0 0 1rem;
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid rgba(201, 169, 106, 0.45);
+            border-radius: 0;
+            color: var(--ivory);
+            font-family: var(--serif);
+            font-weight: 500;
+            font-size: clamp(1.5rem, 2.6vw, 2rem);
+            line-height: 1.3;
+            transition: border-color 0.3s;
+        }
+
+        textarea::placeholder { color: rgba(168, 159, 139, 0.5); font-style: italic; }
+        textarea:focus { outline: none; border-bottom-color: var(--gold-bright); }
+        textarea:read-only { color: var(--ivory-dim); }
+
+        .error {
+            min-height: 1.4rem;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--lie);
+        }
+
+        .btn {
+            display: inline-block;
+            cursor: pointer;
+            border: 0;
+            border-radius: 2px;
+            padding: 1.05rem 2.4rem;
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: 0.04em;
+            color: #1a1407;
+            background: linear-gradient(135deg, #f3dca3 0%, #c9a96a 48%, #a8864a 100%);
+            box-shadow: 0 12px 30px -12px rgba(201, 169, 106, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+            transition: transform 0.2s, box-shadow 0.3s, filter 0.3s;
+        }
+
+        .btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 18px 36px -12px rgba(201, 169, 106, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+        .btn:active:not(:disabled) { transform: translateY(0); }
+        .btn:disabled { cursor: progress; filter: saturate(0.5) brightness(0.8); }
+
+        .btn-quiet {
+            margin-top: 2rem;
+            padding: 0 0 0.25rem;
+            align-self: flex-start;
+            cursor: pointer;
+            background: none;
+            border: 0;
+            border-bottom: 1px solid rgba(201, 169, 106, 0.5);
+            color: var(--gold);
+            font-size: 1rem;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .btn-quiet:hover { color: var(--gold-bright); border-bottom-color: var(--gold-bright); }
+
+        /* verdikt */
+        .verdict:focus { outline: none; }
+
+        .verdict-word {
+            font-family: var(--serif);
+            font-weight: 600;
+            font-size: clamp(5rem, 13vw, 10rem);
+            line-height: 0.9;
+            letter-spacing: -0.02em;
+        }
+
+        .verdict[data-result="truth"] .verdict-word { color: var(--truth); text-shadow: 0 0 60px rgba(127, 207, 165, 0.35); }
+        .verdict[data-result="lie"] .verdict-word { color: var(--lie); text-shadow: 0 0 60px rgba(224, 102, 95, 0.35); }
+
+        .verdict-note {
+            margin-top: 1.25rem;
+            font-size: 1.05rem;
+            color: var(--ivory-dim);
+        }
+
+        .verdict-quote {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(201, 169, 106, 0.28);
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 500;
+            font-size: 1.5rem;
+            line-height: 1.35;
+            color: var(--ivory);
+            overflow-wrap: anywhere;
+        }
+
+        .verdict.reveal .verdict-word { animation: reveal 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+        .verdict.reveal .verdict-note,
+        .verdict.reveal .verdict-quote { animation: fade 0.8s 0.5s ease both; }
+
+        @keyframes reveal {
+            from { opacity: 0; filter: blur(14px); transform: scale(1.06); }
+            to   { opacity: 1; filter: blur(0);    transform: scale(1); }
+        }
+
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+        /* záznam měření */
+        .trace {
+            position: relative;
+            z-index: 1;
+            height: 9rem;
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 100%);
+            mask-image: linear-gradient(90deg, transparent, #000 18%, #000 100%);
+        }
+
+        .trace canvas { width: 100%; height: 100%; display: block; }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 0 clamp(1.25rem, 5vw, 4rem) 1.75rem;
+            font-size: 0.85rem;
+            color: rgba(168, 159, 139, 0.7);
+        }
+
+        @media (max-width: 860px) {
+            main { grid-template-columns: 1fr; align-items: start; padding-top: 0; }
+            .panel { min-height: 0; }
+            .trace { height: 7rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .verdict.reveal .verdict-word,
+            .verdict.reveal .verdict-note,
+            .verdict.reveal .verdict-quote { animation: none; }
+            .btn { transition: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a class="brand" href="../index.html">NeplyTegr</a>
+        <a class="back" href="../index.html#projects">Zpět na projekty</a>
+    </header>
+
+    <main>
+        <div>
+            <h1>Detektor lži</h1>
+            <p class="lede">Napiš tvrzení, které chceš prověřit. Přístroj ho změří a vynese verdikt.</p>
+        </div>
+
+        <section class="panel" aria-label="Detektor">
+            <form id="form" novalidate>
+                <label for="statement">Tvrzení k ověření</label>
+                <textarea id="statement" maxlength="280" placeholder="Například: Dnes jsem měl dvě kávy." autocomplete="off"></textarea>
+                <p class="error" id="error" role="alert"></p>
+                <button class="btn" id="submit" type="submit">Ověřit</button>
+            </form>
+
+            <div class="verdict" id="verdict" role="status" aria-live="polite" tabindex="-1" hidden>
+                <div class="verdict-word" id="verdictWord"></div>
+                <p class="verdict-note" id="verdictNote"></p>
+                <p class="verdict-quote" id="verdictQuote"></p>
+                <button class="btn-quiet" id="again" type="button">Ověřit další tvrzení</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="trace" aria-hidden="true"><canvas id="trace"></canvas></div>
+
+    <footer>Pouze pro zábavu. Výsledek nemá právní ani jinou váhu.</footer>
+
+    <script>
+        (function () {
+            var form = document.getElementById('form');
+            var field = document.getElementById('statement');
+            var errorEl = document.getElementById('error');
+            var submitBtn = document.getElementById('submit');
+            var verdictEl = document.getElementById('verdict');
+            var wordEl = document.getElementById('verdictWord');
+            var noteEl = document.getElementById('verdictNote');
+            var quoteEl = document.getElementById('verdictQuote');
+            var againBtn = document.getElementById('again');
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var MEASURE_MS = reduceMotion ? 600 : 2400;
+
+            /* ---------- záznam měření (canvas) ---------- */
+            var canvas = document.getElementById('trace');
+            var ctx = canvas.getContext('2d');
+            var W = 0, H = 0, dpr = 1;
+            var scroll = 0, lastTs = 0;
+
+            var MODES = {
+                idle:      { amp: 0.22, jag: 0.00, speed: 38,  color: [201, 169, 106] },
+                measuring: { amp: 0.85, jag: 0.35, speed: 150, color: [243, 220, 163] },
+                truth:     { amp: 0.14, jag: 0.00, speed: 38,  color: [127, 207, 165] },
+                lie:       { amp: 0.55, jag: 1.00, speed: 110, color: [224, 102, 95] }
+            };
+            var cur = { amp: MODES.idle.amp, jag: 0, speed: MODES.idle.speed, color: MODES.idle.color.slice() };
+            var target = MODES.idle;
+
+            function resize() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                W = canvas.clientWidth;
+                H = canvas.clientHeight;
+                canvas.width = Math.round(W * dpr);
+                canvas.height = Math.round(H * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                draw();
+            }
+
+            function hash(n) {
+                var s = Math.sin(n * 127.1) * 43758.5453;
+                return s - Math.floor(s);
+            }
+
+            function sample(u, amp, jag) {
+                var base = Math.sin(u * 0.9) * 0.55 + Math.sin(u * 2.3 + 1.7) * 0.3 + Math.sin(u * 5.1) * 0.15;
+                var seg = u * 1.8;
+                var i = Math.floor(seg);
+                var f = seg - i;
+                var j = (hash(i) * (1 - f) + hash(i + 1) * f - 0.5) * 2;
+                return base * amp + j * jag * 0.9;
+            }
+
+            function draw() {
+                if (!W) return;
+                ctx.clearRect(0, 0, W, H);
+                var penX = W * 0.82;
+                var mid = H / 2;
+                var c = cur.color;
+                var rgb = Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]);
+
+                ctx.strokeStyle = 'rgba(' + rgb + ',0.12)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(0, mid + 0.5);
+                ctx.lineTo(W, mid + 0.5);
+                ctx.stroke();
+
+                ctx.lineWidth = 1.6;
+                ctx.lineJoin = 'round';
+                ctx.strokeStyle = 'rgb(' + rgb + ')';
+                ctx.shadowColor = 'rgba(' + rgb + ',0.7)';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                var y = 0;
+                for (var x = 0; x <= penX; x += 2) {
+                    var u = (scroll - (penX - x)) / 46;
+                    y = mid - sample(u, cur.amp, cur.jag) * H * 0.42;
+                    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                ctx.shadowBlur = 18;
+                ctx.fillStyle = 'rgb(' + rgb + ')';
+                ctx.beginPath();
+                ctx.arc(penX, y, 3.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+
+            function frame(ts) {
+                var dt = Math.min((ts - lastTs) / 1000, 0.05) || 0;
+                lastTs = ts;
+                var k = 1 - Math.exp(-dt * 3.5);
+                cur.amp += (target.amp - cur.amp) * k;
+                cur.jag += (target.jag - cur.jag) * k;
+                cur.speed += (target.speed - cur.speed) * k;
+                for (var i = 0; i < 3; i++) cur.color[i] += (target.color[i] - cur.color[i]) * k;
+                scroll += cur.speed * dt;
+                draw();
+                requestAnimationFrame(frame);
+            }
+
+            function setMode(name) {
+                target = MODES[name];
+                if (reduceMotion) {
+                    cur.amp = target.amp; cur.jag = target.jag; cur.speed = target.speed;
+                    cur.color = target.color.slice();
+                    draw();
+                }
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+            if (!reduceMotion) requestAnimationFrame(frame);
+
+            /* ---------- ověření ---------- */
+            var busy = false;
+
+            function showError(msg) {
+                errorEl.textContent = msg;
+            }
+
+            function verify() {
+                var text = field.value.trim();
+                if (!text) {
+                    showError('Napiš tvrzení, které chceš ověřit.');
+                    field.focus();
+                    return;
+                }
+                if (busy) return;
+                busy = true;
+                showError('');
+
+                var minute = new Date().getMinutes();
+                var truth = minute % 2 === 0;
+
+                field.readOnly = true;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Měřím…';
+                setMode('measuring');
+
+                setTimeout(function () {
+                    form.hidden = true;
+                    verdictEl.hidden = false;
+                    verdictEl.dataset.result = truth ? 'truth' : 'lie';
+                    wordEl.textContent = truth ? 'Pravda' : 'Lež';
+                    noteEl.textContent = truth ? 'Tvrzení obstálo.' : 'Tvrzení neobstálo.';
+                    quoteEl.textContent = '„' + text + '“';
+                    verdictEl.classList.remove('reveal');
+                    void verdictEl.offsetWidth;
+                    verdictEl.classList.add('reveal');
+                    verdictEl.focus();
+                    setMode(truth ? 'truth' : 'lie');
+                    busy = false;
+                }, MEASURE_MS);
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                verify();
+            });
+
+            field.addEventListener('input', function () { showError(''); });
+
+            field.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    form.requestSubmit();
+                }
+            });
+
+            againBtn.addEventListener('click', function () {
+                verdictEl.hidden = true;
+                form.hidden = false;
+                field.readOnly = false;
+                field.value = '';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Ověřit';
+                setMode('idle');
+                field.focus();
+            });
+        })();
+    </script>
+</body>
+</html>
