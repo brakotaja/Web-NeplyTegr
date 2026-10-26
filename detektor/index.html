@@ -3,137 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DETEKTOR LŽI!!!</title>
+<title>Exkluzivní Detektor Pravdy™ – Platinová třída</title>
 <style>
-    body {
-        font-family: "Comic Sans MS", "Comic Neue", cursive;
-        background: #ff00ff;
-        color: #00ff00;
+    * {
         margin: 0;
-        padding: 16px;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: "Times New Roman", Times, serif;
+        background:
+            repeating-linear-gradient(45deg, #2a0a3a 0 14px, #34124a 14px 28px);
+        color: #ffe9a8;
         min-height: 100vh;
+        padding: 24px 16px 40px;
     }
 
-    marquee {
-        display: block;
-        background: #ffff00;
-        color: #ff0000;
-        font-weight: bold;
-        border: 4px dotted #0000ff;
-        padding: 6px 0;
-        margin-bottom: 14px;
-    }
-
-    header {
-        background: #ff8800;
-        border: 8px ridge #00ffff;
-        padding: 12px;
+    .top-ribbon {
         text-align: center;
-        transform: rotate(-2deg);
+        background: linear-gradient(90deg, #7a5200, #ffd700, #7a5200);
+        color: #2a0a3a;
+        font-family: Impact, "Arial Narrow", sans-serif;
+        letter-spacing: 4px;
+        padding: 8px;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 0 #3f2600;
+    }
+
+    .crest {
+        text-align: center;
+        font-size: 4rem;
+        margin: 24px 0 8px;
+        text-shadow: 0 0 12px #ffd700, 3px 3px 0 #7a5200;
     }
 
     h1 {
-        font-family: Impact, "Arial Black", sans-serif;
-        font-size: 3.2rem;
-        color: #ffffff;
-        text-shadow: 4px 4px 0 #000000, -3px -3px 0 #ff0000;
-        letter-spacing: 3px;
+        font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+        font-size: 4.2rem;
+        font-weight: normal;
+        text-align: center;
+        color: #ffd700;
+        text-shadow: 3px 3px 0 #3f1a00, 0 0 18px rgba(255, 215, 0, 0.6);
+        line-height: 1.1;
     }
 
-    .box {
-        max-width: 620px;
-        margin: 24px auto;
-        background: #ffffff;
-        color: #000000;
-        border: 6px double #00ff00;
-        padding: 20px;
-        transform: rotate(1.5deg);
-        box-shadow: 12px 12px 0 #0000ff;
-    }
-
-    .box p {
-        font-family: "Times New Roman", serif;
-        font-size: 1.1rem;
+    .tagline {
+        text-align: center;
+        font-family: Georgia, serif;
         font-style: italic;
-        color: #800080;
+        color: #d9b3ff;
+        margin: 12px 0 28px;
+        letter-spacing: 1px;
+    }
+
+    .certificate {
+        max-width: 620px;
+        margin: 0 auto;
+        background: #fff8e1;
+        color: #3f1a00;
+        border: 8px double #b8860b;
+        outline: 2px solid #ffd700;
+        outline-offset: 6px;
+        padding: 36px 30px;
+        box-shadow: 0 0 0 10px #2a0a3a, 0 0 0 13px #ffd700, 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .certificate p.lead {
+        text-align: center;
+        font-style: italic;
+        color: #6b4a00;
+        margin-bottom: 24px;
     }
 
     label {
         display: block;
-        font-weight: bold;
-        color: #ff0000;
-        background: #ffff00;
-        padding: 4px;
+        font-family: Impact, sans-serif;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #7a5200;
+        font-size: 0.9rem;
         margin-bottom: 6px;
     }
 
     textarea {
         width: 100%;
         min-height: 110px;
-        font-family: Courier, monospace;
-        font-size: 1rem;
-        background: #00ffff;
-        color: #000080;
-        border: 5px solid #ff0000;
-        padding: 10px;
+        padding: 12px;
+        background: #ffffff;
+        color: #3f1a00;
+        border: 3px solid #b8860b;
+        font: italic 1.05rem Georgia, serif;
+        resize: vertical;
+    }
+
+    textarea:focus {
+        outline: 3px dotted #7a00b8;
     }
 
     .btn {
         display: block;
         width: 100%;
-        margin-top: 16px;
+        margin-top: 22px;
         padding: 16px;
-        font-family: Impact, "Arial Black", sans-serif;
-        font-size: 1.6rem;
-        background: #ff0000;
-        color: #ffff00;
-        border: 6px outset #ffff00;
+        font-family: "Brush Script MT", cursive;
+        font-size: 1.8rem;
+        background: linear-gradient(180deg, #9b4dd6 0%, #4b1475 100%);
+        color: #ffd700;
+        border: 3px solid #ffd700;
+        border-radius: 40px;
         cursor: pointer;
+        text-shadow: 1px 1px 0 #000;
+        box-shadow: 0 6px 0 #2a0a3a, 0 10px 20px rgba(0, 0, 0, 0.4);
+        transition: transform 0.15s;
     }
 
-    .btn:active {
-        border-style: inset;
+    .btn:hover:not(:disabled) {
+        transform: translateY(-2px) scale(1.02);
+    }
+
+    .btn:active:not(:disabled) {
+        transform: translateY(3px);
+        box-shadow: 0 2px 0 #2a0a3a;
+    }
+
+    .btn:disabled {
+        opacity: 0.55;
+        cursor: wait;
     }
 
     .result {
-        margin-top: 20px;
-        min-height: 110px;
-        padding: 16px;
-        background: #000000;
-        border: 6px dashed #ff00ff;
+        margin-top: 26px;
+        min-height: 130px;
+        padding: 18px;
+        border: 3px dotted #b8860b;
+        background: #fff1c2;
         text-align: center;
-    }
-
-    .verdict {
-        font-family: Impact, "Arial Black", sans-serif;
-        font-size: 3.5rem;
-        text-decoration: underline wavy #ffffff;
-    }
-
-    .verdict.truth {
-        color: #00ff00;
-    }
-
-    .verdict.lie {
-        color: #ff0000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .idle {
-        color: #ffff00;
-        font-size: 1.2rem;
+        font-style: italic;
+        color: #8a6d2a;
     }
 
     .scanning {
-        font-family: Impact, "Arial Black", sans-serif;
-        font-size: 2.4rem;
-        animation: flash 0.25s steps(2) infinite, shake 0.1s linear infinite;
+        font-family: "Brush Script MT", cursive;
+        font-size: 2.2rem;
+        color: #7a00b8;
+        animation: spin-glow 1.2s ease-in-out infinite;
     }
 
     .scan-bar {
-        height: 26px;
-        margin-top: 12px;
-        background: #222222;
-        border: 4px solid #ffff00;
+        width: 100%;
+        height: 14px;
+        margin-top: 16px;
+        background: #3f1a00;
+        border: 2px solid #b8860b;
         overflow: hidden;
     }
 
@@ -141,67 +171,108 @@
         display: block;
         height: 100%;
         width: 0;
-        background: repeating-linear-gradient(45deg, #ff00ff 0 12px, #00ffff 12px 24px);
+        background: repeating-linear-gradient(90deg, #ffd700 0 10px, #fff3a0 10px 16px);
         animation: fill 2.5s linear forwards;
     }
 
-    @keyframes flash {
-        0% { color: #ff0000; }
-        50% { color: #00ff00; }
-        100% { color: #ffff00; }
+    .verdict {
+        font-family: "Brush Script MT", cursive;
+        font-size: 4rem;
+        line-height: 1;
+        animation: drop-in 0.7s cubic-bezier(.2, 1.4, .4, 1);
     }
 
-    @keyframes shake {
-        0% { transform: translate(0, 0); }
-        25% { transform: translate(-4px, 2px); }
-        50% { transform: translate(4px, -2px); }
-        75% { transform: translate(-2px, -3px); }
-        100% { transform: translate(3px, 3px); }
+    .verdict.truth {
+        color: #1f7a2e;
+        text-shadow: 2px 2px 0 #ffd700;
+    }
+
+    .verdict.lie {
+        color: #b00020;
+        text-shadow: 2px 2px 0 #ffd700;
+    }
+
+    .seal {
+        margin-top: 10px;
+        font-family: Impact, sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 3px;
+        color: #7a5200;
+        text-transform: uppercase;
+    }
+
+    @keyframes spin-glow {
+        0%, 100% { text-shadow: 0 0 4px #ffd700; }
+        50% { text-shadow: 0 0 16px #ffd700, 0 0 4px #7a00b8; }
     }
 
     @keyframes fill {
         to { width: 100%; }
     }
 
-    footer {
-        margin-top: 30px;
-        text-align: center;
-        background: #0000ff;
-        color: #ffffff;
-        padding: 14px;
-        border: 4px solid #ffff00;
+    @keyframes drop-in {
+        from { transform: translateY(-30px) rotate(-8deg) scale(1.4); opacity: 0; }
+        to { transform: translateY(0) rotate(-3deg) scale(1); opacity: 1; }
     }
 
-    footer a {
-        color: #ffff00;
-        font-weight: bold;
+    .footer {
+        margin-top: 40px;
+        text-align: center;
+        font-family: Georgia, serif;
+        font-size: 0.85rem;
+        color: #d9b3ff;
+    }
+
+    .footer a {
+        color: #ffd700;
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 3rem;
+        }
+
+        .certificate {
+            padding: 24px 18px;
+        }
+
+        .verdict {
+            font-size: 3rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .scanning,
+        .verdict,
+        .scan-bar span {
+            animation: none;
+        }
     }
 </style>
 </head>
 <body>
-    <marquee>!!! NEJPŘESNĚJŠÍ DETEKTOR NA INTERNETU !!! ZAKLIKNI A UVIDÍŠ !!!</marquee>
+    <div class="top-ribbon">★ Exkluzivní služba pouze pro vyvolené ★ Platinová třída ★</div>
 
-    <header>
-        <h1>DETEKTOR LŽI!!!</h1>
-    </header>
+    <div class="crest">👑</div>
+    <h1>Exkluzivní Detektor Pravdy</h1>
+    <p class="tagline">„Pravda je luxus. Prověřte ji u nás.“</p>
 
-    <section class="box">
-        <p>Napiš sem co chceš a my řekneme jestli to je pravda!!!</p>
+    <section class="certificate">
+        <p class="lead">Certifikovaná prémiová detekce výroků pro náročnou klientelu.</p>
 
-        <label for="statement">VÝROK:</label>
-        <textarea id="statement" placeholder="Sem napiš výrok..."></textarea>
+        <label for="statement">Váš výrok k prověření</label>
+        <textarea id="statement" placeholder="Napište svůj výjimečný výrok…"></textarea>
 
-        <button class="btn" id="check" type="button">PROVĚŘ!!!</button>
+        <button class="btn" id="check" type="button">Prověřit výrok ✦</button>
 
         <div class="result" id="result" aria-live="polite">
-            <p class="idle">ČEKÁM NA VÝROK...</p>
+            <p class="idle">Váš certifikát se zobrazí zde.</p>
         </div>
     </section>
 
-    <footer>
-        <p>Neplytegr.cz – 100% spolehlivé. 50% času. Vždy.</p>
-        <p><a href="../index.html">ZPĚT NA HLAVNÍ STRÁNKU</a></p>
-    </footer>
+    <p class="footer">
+        Neplytegr® Premium · <a href="../index.html">Zpět do našeho sídla</a>
+    </p>
 
     <script>
         const check = document.getElementById('check');
@@ -216,14 +287,19 @@
             result.appendChild(p);
         }
 
-        const SCAN_TEXTS = ['DETEKUJI...', 'ANALYZUJI...', 'PROSVĚCUJI...', 'HLEDÁM LEŽ...', 'POROVNÁVÁM...'];
+        const SCAN_TEXTS = [
+            'Probíhá exkluzivní analýza…',
+            'Konzultace s experty…',
+            'Kalibrace zlatého paprsku…',
+            'Prémiové vyhodnocení…'
+        ];
         let scanning = false;
 
         check.addEventListener('click', () => {
             if (scanning) return;
 
             if (!statement.value.trim()) {
-                showIdle('NAPIŠ NEJDŘÍV NĚCO!!!');
+                showIdle('Nejdříve prosíme zadejte výrok, vážený hosťe.');
                 return;
             }
 
@@ -236,8 +312,7 @@
 
             const bar = document.createElement('div');
             bar.className = 'scan-bar';
-            const fill = document.createElement('span');
-            bar.appendChild(fill);
+            bar.appendChild(document.createElement('span'));
 
             result.replaceChildren(label, bar);
 
@@ -245,7 +320,7 @@
             const cycle = setInterval(() => {
                 step = (step + 1) % SCAN_TEXTS.length;
                 label.textContent = SCAN_TEXTS[step];
-            }, 450);
+            }, 600);
 
             setTimeout(() => {
                 clearInterval(cycle);
@@ -254,9 +329,13 @@
 
                 const verdict = document.createElement('div');
                 verdict.className = 'verdict ' + (isTrue ? 'truth' : 'lie');
-                verdict.textContent = isTrue ? 'PRAVDA!!!' : 'LEŽ!!!';
+                verdict.textContent = isTrue ? 'Pravda' : 'Lež';
 
-                result.replaceChildren(verdict);
+                const seal = document.createElement('div');
+                seal.className = 'seal';
+                seal.textContent = '— certifikováno Neplytegr® —';
+
+                result.replaceChildren(verdict, seal);
                 check.disabled = false;
                 scanning = false;
             }, 2500);
