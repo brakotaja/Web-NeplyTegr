@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DETEKTOR LŽI!!!</title>
+<style>
+    body {
+        font-family: "Comic Sans MS", "Comic Neue", cursive;
+        background: #ff00ff;
+        color: #00ff00;
+        margin: 0;
+        padding: 16px;
+        min-height: 100vh;
+    }
+
+    marquee {
+        display: block;
+        background: #ffff00;
+        color: #ff0000;
+        font-weight: bold;
+        border: 4px dotted #0000ff;
+        padding: 6px 0;
+        margin-bottom: 14px;
+    }
+
+    header {
+        background: #ff8800;
+        border: 8px ridge #00ffff;
+        padding: 12px;
+        text-align: center;
+        transform: rotate(-2deg);
+    }
+
+    h1 {
+        font-family: Impact, "Arial Black", sans-serif;
+        font-size: 3.2rem;
+        color: #ffffff;
+        text-shadow: 4px 4px 0 #000000, -3px -3px 0 #ff0000;
+        letter-spacing: 3px;
+    }
+
+    .box {
+        max-width: 620px;
+        margin: 24px auto;
+        background: #ffffff;
+        color: #000000;
+        border: 6px double #00ff00;
+        padding: 20px;
+        transform: rotate(1.5deg);
+        box-shadow: 12px 12px 0 #0000ff;
+    }
+
+    .box p {
+        font-family: "Times New Roman", serif;
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #800080;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        color: #ff0000;
+        background: #ffff00;
+        padding: 4px;
+        margin-bottom: 6px;
+    }
+
+    textarea {
+        width: 100%;
+        min-height: 110px;
+        font-family: Courier, monospace;
+        font-size: 1rem;
+        background: #00ffff;
+        color: #000080;
+        border: 5px solid #ff0000;
+        padding: 10px;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin-top: 16px;
+        padding: 16px;
+        font-family: Impact, "Arial Black", sans-serif;
+        font-size: 1.6rem;
+        background: #ff0000;
+        color: #ffff00;
+        border: 6px outset #ffff00;
+        cursor: pointer;
+    }
+
+    .btn:active {
+        border-style: inset;
+    }
+
+    .result {
+        margin-top: 20px;
+        min-height: 110px;
+        padding: 16px;
+        background: #000000;
+        border: 6px dashed #ff00ff;
+        text-align: center;
+    }
+
+    .verdict {
+        font-family: Impact, "Arial Black", sans-serif;
+        font-size: 3.5rem;
+        text-decoration: underline wavy #ffffff;
+    }
+
+    .verdict.truth {
+        color: #00ff00;
+    }
+
+    .verdict.lie {
+        color: #ff0000;
+    }
+
+    .idle {
+        color: #ffff00;
+        font-size: 1.2rem;
+    }
+
+    .scanning {
+        font-family: Impact, "Arial Black", sans-serif;
+        font-size: 2.4rem;
+        animation: flash 0.25s steps(2) infinite, shake 0.1s linear infinite;
+    }
+
+    .scan-bar {
+        height: 26px;
+        margin-top: 12px;
+        background: #222222;
+        border: 4px solid #ffff00;
+        overflow: hidden;
+    }
+
+    .scan-bar span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: repeating-linear-gradient(45deg, #ff00ff 0 12px, #00ffff 12px 24px);
+        animation: fill 2.5s linear forwards;
+    }
+
+    @keyframes flash {
+        0% { color: #ff0000; }
+        50% { color: #00ff00; }
+        100% { color: #ffff00; }
+    }
+
+    @keyframes shake {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(-4px, 2px); }
+        50% { transform: translate(4px, -2px); }
+        75% { transform: translate(-2px, -3px); }
+        100% { transform: translate(3px, 3px); }
+    }
+
+    @keyframes fill {
+        to { width: 100%; }
+    }
+
+    footer {
+        margin-top: 30px;
+        text-align: center;
+        background: #0000ff;
+        color: #ffffff;
+        padding: 14px;
+        border: 4px solid #ffff00;
+    }
+
+    footer a {
+        color: #ffff00;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+    <marquee>!!! NEJPŘESNĚJŠÍ DETEKTOR NA INTERNETU !!! ZAKLIKNI A UVIDÍŠ !!!</marquee>
+
+    <header>
+        <h1>DETEKTOR LŽI!!!</h1>
+    </header>
+
+    <section class="box">
+        <p>Napiš sem co chceš a my řekneme jestli to je pravda!!!</p>
+
+        <label for="statement">VÝROK:</label>
+        <textarea id="statement" placeholder="Sem napiš výrok..."></textarea>
+
+        <button class="btn" id="check" type="button">PROVĚŘ!!!</button>
+
+        <div class="result" id="result" aria-live="polite">
+            <p class="idle">ČEKÁM NA VÝROK...</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>Neplytegr.cz – 100% spolehlivé. 50% času. Vždy.</p>
+        <p><a href="../index.html">ZPĚT NA HLAVNÍ STRÁNKU</a></p>
+    </footer>
+
+    <script>
+        const check = document.getElementById('check');
+        const statement = document.getElementById('statement');
+        const result = document.getElementById('result');
+
+        function showIdle(message) {
+            result.replaceChildren();
+            const p = document.createElement('p');
+            p.className = 'idle';
+            p.textContent = message;
+            result.appendChild(p);
+        }
+
+        const SCAN_TEXTS = ['DETEKUJI...', 'ANALYZUJI...', 'PROSVĚCUJI...', 'HLEDÁM LEŽ...', 'POROVNÁVÁM...'];
+        let scanning = false;
+
+        check.addEventListener('click', () => {
+            if (scanning) return;
+
+            if (!statement.value.trim()) {
+                showIdle('NAPIŠ NEJDŘÍV NĚCO!!!');
+                return;
+            }
+
+            scanning = true;
+            check.disabled = true;
+
+            const label = document.createElement('div');
+            label.className = 'scanning';
+            label.textContent = SCAN_TEXTS[0];
+
+            const bar = document.createElement('div');
+            bar.className = 'scan-bar';
+            const fill = document.createElement('span');
+            bar.appendChild(fill);
+
+            result.replaceChildren(label, bar);
+
+            let step = 0;
+            const cycle = setInterval(() => {
+                step = (step + 1) % SCAN_TEXTS.length;
+                label.textContent = SCAN_TEXTS[step];
+            }, 450);
+
+            setTimeout(() => {
+                clearInterval(cycle);
+
+                const isTrue = new Date().getMinutes() % 2 === 0;
+
+                const verdict = document.createElement('div');
+                verdict.className = 'verdict ' + (isTrue ? 'truth' : 'lie');
+                verdict.textContent = isTrue ? 'PRAVDA!!!' : 'LEŽ!!!';
+
+                result.replaceChildren(verdict);
+                check.disabled = false;
+                scanning = false;
+            }, 2500);
+        });
+    </script>
+</body>
+</html>
