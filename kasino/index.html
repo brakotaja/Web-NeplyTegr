@@ -1,225 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="cs">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NeplyTegr kasino</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0e1210;--panel:#151b18;--panel2:#1a221e;--line:#27322c;
-  --brass:#b8955a;--brass-hi:#d8b878;--text:#e8e4da;--muted:#8a948d;--red:#b5524a;--green:#6aa386;
-  --serif:"Cormorant Garamond",Georgia,serif;--sans:Inter,system-ui,sans-serif;
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 var(--sans);display:flex;justify-content:center;
-  padding:max(28px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));overflow-y:auto}
-.wrap{width:100%;max-width:440px}
-header{text-align:center;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:20px}
-h1{font:500 clamp(34px,9vw,44px)/1.05 var(--serif);letter-spacing:.04em;margin:0;color:var(--brass-hi)}
-.sub{color:var(--muted);font-size:13px;margin:6px 0 0}
-
-.stats{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:6px;background:var(--panel);margin-bottom:16px}
-.stats div{padding:12px 16px}
-.stats div+div{border-left:1px solid var(--line);text-align:right}
-.stats small{display:block;color:var(--muted);font-size:12px}
-.stats b{font:600 26px/1.15 var(--serif);font-variant-numeric:tabular-nums}
-#bal{color:var(--text)}#net.neg{color:var(--red)}#net.pos{color:var(--green)}
-
-.machine{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px}
-.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
-.reel{height:112px;display:flex;align-items:center;justify-content:center;font:600 64px/1 var(--serif);
-  background:linear-gradient(#0b0e0d,#18201c 50%,#0b0e0d);color:var(--text);transition:filter .15s}
-.reel.spin{filter:blur(1.5px);color:var(--muted)}
-.reel.gold{color:var(--brass-hi)}.reel.red{color:var(--red)}
-
-.msg{min-height:44px;margin:14px 0 8px;text-align:center;font-weight:500;color:var(--muted);display:flex;align-items:center;justify-content:center}
-.msg.win{color:var(--brass-hi)}.msg.lose{color:var(--muted)}
-
-.bets{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
-button{font:500 14px var(--sans);border-radius:4px;padding:12px;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--muted);transition:border-color .15s,color .15s}
-button:hover:not(:disabled){border-color:var(--brass);color:var(--text)}
-.bets button[aria-pressed=true]{border-color:var(--brass);color:var(--brass-hi);background:rgba(184,149,90,.08)}
-#spin{width:100%;background:var(--brass);color:#14100a;border:0;font:600 15px var(--sans);letter-spacing:.06em;text-transform:uppercase;padding:15px}
-#spin:hover:not(:disabled){background:var(--brass-hi);color:#14100a}
-button:disabled{opacity:.45;cursor:default}
-:focus-visible{outline:2px solid var(--brass-hi);outline-offset:2px}
-
-table{width:100%;border-collapse:collapse;margin-top:24px;font-size:13px}
-caption{text-align:left;font:600 20px var(--serif);color:var(--text);padding-bottom:8px}
-th,td{padding:8px 0;border-top:1px solid var(--line);text-align:left;font-weight:400}
-td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
-td:first-child{font:600 20px/1 var(--serif);letter-spacing:.15em}
-td.gold,.gold{color:var(--brass-hi)}td.red{color:var(--red)}
-td:nth-child(2){color:var(--muted)}
-.foot{margin-top:20px;color:var(--muted);font-size:12px;text-align:center}
-.topup{width:100%;margin-top:8px}
-#gate{position:fixed;inset:0;z-index:10;background:#f3f5f7;color:#1d2733;overflow-y:auto;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
-#gate[hidden]{display:none}
-#gate .box{max-width:420px;margin:0 auto}
-#gate .brand{display:flex;justify-content:space-between;align-items:center;padding:8px 0 16px;font:600 22px var(--sans);color:#1f5fbf}
-#gate .brand span{font:400 12px var(--sans);color:#5b6877}
-#gate .warn{background:#fff4d6;border:1px solid #e6c667;color:#5c4400;border-radius:4px;padding:10px 12px;font-size:13px;margin-bottom:14px}
-#gate .card{background:#fff;border:1px solid #dde3ea;border-radius:6px;padding:18px;margin-bottom:14px}
-#gate h2{font:600 17px var(--sans);margin:0 0 12px}
-#gate label{color:#5b6877}
-#gate input{background:#fff;color:#1d2733;border:1px solid #c5ced8}
-#gate .sum{display:flex;justify-content:space-between;font-size:14px;color:#5b6877;margin-bottom:6px}
-#gate .sum b{color:#1d2733}
-#gate .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px}
-#gate button{color:#1d2733;border-color:#c5ced8}
-#gate button:hover:not(:disabled){border-color:#1f5fbf;color:#1f5fbf}
-#gate .ok{background:#1f5fbf;color:#fff;border:0;width:100%;padding:14px;font-weight:600}
-#gate .ok:hover:not(:disabled){background:#194d9a;color:#fff}
-#gate .back{width:100%;margin-top:8px;border:0;color:#5b6877}
-#gate .err{color:#b3261e;font-size:12px;min-height:16px;margin:-4px 0 8px}
-#gate :focus-visible{outline-color:#1f5fbf}
-label{display:block;font-size:12px;color:var(--muted);margin-bottom:10px}
-input{display:block;width:100%;margin-top:4px;padding:11px 12px;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:4px;font:15px var(--sans)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
-.actions .ok{background:var(--brass);color:#14100a;border:0;font-weight:600}
-@media (prefers-reduced-motion:reduce){.reel,button{transition:none}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#09040f">
+  <title>NeplyTegr Casino — Neon Slots</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#09040f;--surface:#130a1e;--surface-2:#1d102b;--surface-3:#29173b;--ink:#fffafd;--muted:#a99db4;--pink:#ff2d8f;--pink-2:#ff75b7;--cyan:#48e5ff;--lime:#bcff43;--gold:#ffd15c;--red:#ff5e6c;--line:rgba(255,255,255,.1);--display:"Barlow Condensed",Impact,sans-serif;--sans:Inter,system-ui,sans-serif;color-scheme:dark}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{min-height:100%;margin:0;background:radial-gradient(circle at 50% -20%,rgba(255,45,143,.22),transparent 38rem),radial-gradient(circle at 12% 40%,rgba(72,229,255,.08),transparent 28rem),linear-gradient(180deg,#0c0612 0%,var(--bg) 70%);color:var(--ink);font:14px/1.5 var(--sans)}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.45}:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+    .ambient{position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:36px 36px;mask-image:linear-gradient(to bottom,#000,transparent 85%)}
+    .topbar{height:74px;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,4vw);background:rgba(9,4,15,.86);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}.logo{display:flex;align-items:center;gap:10px;font:800 25px/1 var(--display);letter-spacing:.03em;text-transform:uppercase}.logo-mark{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--pink),#8b36ff);box-shadow:0 0 28px rgba(255,45,143,.4);font-size:18px}.logo em{font-style:normal;color:var(--pink-2)}.top-actions{display:flex;align-items:center;gap:10px}.status-pill{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px}.status-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime)}.wallet-mini{border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--surface);font-weight:700}.wallet-mini span{color:var(--lime);margin-left:6px;font-variant-numeric:tabular-nums}
+    .layout{width:min(1500px,100%);margin:0 auto;padding:24px;display:grid;grid-template-columns:minmax(170px,220px) minmax(460px,720px) minmax(170px,220px);gap:22px;align-items:start;justify-content:center}.ad-rail{position:sticky;top:98px;display:grid;gap:14px}.rail-label{text-align:center;color:#756a80;text-transform:uppercase;letter-spacing:.22em;font-size:9px}.ad{position:relative;min-height:156px;overflow:hidden;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;isolation:isolate;box-shadow:0 18px 40px rgba(0,0,0,.2)}.ad::before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-48px;top:-62px;background:rgba(255,255,255,.17);z-index:-1}.ad::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.1),transparent 55%);z-index:-1}.ad.king{background:linear-gradient(145deg,#38116d,#13082b 66%)}.ad.grand{background:linear-gradient(145deg,#0f6385,#071e38 66%)}.ad.one{background:linear-gradient(145deg,#b51248,#2e0818 66%)}.ad.drop{background:linear-gradient(145deg,#37761b,#10220a 66%)}.ad-brand{font:800 26px/1 var(--display);text-transform:uppercase;letter-spacing:.02em}.ad-brand i{font-style:normal;color:var(--gold)}.one .ad-brand{font-size:38px}.drop .ad-brand{font-size:23px}.grand .ad-brand{color:#67e9ff}.ad-copy{font-weight:700;font-size:15px;line-height:1.15;margin:12px 0}.ad-copy b{color:var(--gold)}.ad-cta{align-self:flex-start;border:0;border-radius:999px;background:#fff;color:#160d1f;padding:7px 12px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.ad small{font-size:8px;color:rgba(255,255,255,.54);margin-top:6px}
+    main{min-width:0}.hero{text-align:center;margin:2px 0 18px}.eyebrow{color:var(--pink-2);text-transform:uppercase;letter-spacing:.24em;font-size:10px;font-weight:800}h1{font:800 clamp(40px,7vw,68px)/.86 var(--display);text-transform:uppercase;letter-spacing:-.02em;margin:8px 0 10px;text-shadow:0 0 35px rgba(255,45,143,.28)}h1 span{color:var(--pink)}.hero p{color:var(--muted);margin:0}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:14px}.stat{background:rgba(19,10,30,.88);padding:13px 16px}.stat small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:3px}.stat strong{font:700 24px/1 var(--display);font-variant-numeric:tabular-nums}.stat strong.positive{color:var(--lime)}.stat strong.negative{color:var(--red)}
+    .machine{position:relative;border:1px solid rgba(255,117,183,.32);border-radius:26px;padding:20px;background:linear-gradient(145deg,rgba(41,23,59,.96),rgba(15,7,24,.98));box-shadow:0 28px 90px rgba(0,0,0,.45),0 0 60px rgba(255,45,143,.08),inset 0 1px rgba(255,255,255,.08)}.machine::before{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.055);border-radius:20px;pointer-events:none}.machine-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;padding:0 4px}.jackpot small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.16em}.jackpot strong{font:800 24px/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}.live-badge{border:1px solid rgba(188,255,67,.24);border-radius:999px;background:rgba(188,255,67,.08);color:var(--lime);padding:6px 10px;font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .reel-frame{position:relative;border:4px solid #4b2a61;border-radius:18px;padding:8px;background:#07040a;box-shadow:inset 0 0 45px #000,0 0 0 1px rgba(255,255,255,.12)}.reels{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;overflow:hidden;border-radius:10px;background:#120a18;padding:7px}.reels::before,.reels::after{content:"";position:absolute;left:0;right:0;height:27%;z-index:5;pointer-events:none}.reels::before{top:0;background:linear-gradient(#0a050e,transparent)}.reels::after{bottom:0;background:linear-gradient(transparent,#0a050e)}.payline{position:absolute;left:2px;right:2px;top:50%;height:2px;z-index:8;transform:translateY(-50%);background:linear-gradient(90deg,transparent,var(--pink) 8%,var(--pink) 92%,transparent);box-shadow:0 0 14px var(--pink);pointer-events:none}.payline::before,.payline::after{content:"";position:absolute;top:50%;transform:translateY(-50%);border-top:7px solid transparent;border-bottom:7px solid transparent}.payline::before{left:0;border-left:9px solid var(--pink)}.payline::after{right:0;border-right:9px solid var(--pink)}.reel{display:grid;grid-template-rows:repeat(3,clamp(72px,13vw,104px));gap:6px;transition:filter .2s}.symbol{position:relative;display:grid;place-items:center;border:1px solid #d8d0dc;border-radius:12px;background:linear-gradient(145deg,#fff,#e7e0eb);box-shadow:inset 0 -10px 22px rgba(64,28,82,.1),0 4px 8px rgba(0,0,0,.25);font-size:clamp(39px,7vw,62px);line-height:1;color:#171019;user-select:none;transform:translateZ(0)}.symbol::after{content:"";position:absolute;inset:5px;border:1px solid rgba(62,26,79,.1);border-radius:8px;pointer-events:none}.symbol.win{animation:winPulse .65s ease-in-out infinite alternate;background:linear-gradient(145deg,#fff7ce,#ffd86e);border-color:#fff0a0;box-shadow:0 0 28px rgba(255,209,92,.75),inset 0 0 18px rgba(255,255,255,.8)}.reel.spinning .symbol{animation:reelRush .115s linear infinite}@keyframes reelRush{0%{transform:translateY(-6px)}50%{transform:translateY(6px)}100%{transform:translateY(-6px)}}@keyframes winPulse{to{transform:scale(1.06)}}
+    .message{min-height:46px;display:flex;align-items:center;justify-content:center;text-align:center;margin:12px 0 4px;color:var(--muted);font-weight:700}.message.win{color:var(--gold);text-shadow:0 0 20px rgba(255,209,92,.25)}.message.lose{color:#b6a9bd}.controls{display:grid;grid-template-columns:minmax(150px,1fr) minmax(190px,1.2fr);gap:12px;align-items:stretch}.bet-control{display:grid;grid-template-columns:44px 1fr 44px;background:#100818;border:1px solid var(--line);border-radius:14px;overflow:hidden}.bet-control button{border:0;background:transparent;color:var(--muted);font-size:22px}.bet-control button:hover{color:var(--ink);background:rgba(255,255,255,.05)}.bet-value{display:grid;place-items:center;border-inline:1px solid var(--line)}.bet-value small{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;letter-spacing:.14em}.bet-value strong{font:700 22px/1 var(--display);color:var(--ink);font-variant-numeric:tabular-nums}.spin{position:relative;overflow:hidden;border:0;border-radius:14px;background:linear-gradient(110deg,var(--pink),#ac31ff);color:#fff;min-height:60px;padding:12px 20px;font:800 22px/1 var(--display);text-transform:uppercase;letter-spacing:.08em;box-shadow:0 12px 30px rgba(255,45,143,.3)}.spin::after{content:"";position:absolute;inset:-50% auto -50% -25%;width:25%;transform:rotate(18deg);background:rgba(255,255,255,.28);transition:left .45s}.spin:hover::after{left:120%}.spin:hover{filter:brightness(1.08)}
+    .wallet-panel{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.wallet-action{display:flex;align-items:center;gap:12px;text-align:left;padding:15px;border:1px solid var(--line);border-radius:15px;background:rgba(19,10,30,.85);color:var(--ink)}.wallet-action:hover{border-color:rgba(255,117,183,.5);background:var(--surface-2)}.action-icon{width:38px;height:38px;display:grid;place-items:center;flex:0 0 auto;border-radius:11px;background:rgba(72,229,255,.1);color:var(--cyan);font-size:18px}.withdraw .action-icon{background:rgba(255,45,143,.12);color:var(--pink-2)}.wallet-action strong{display:block}.wallet-action small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+    .session-card{margin-top:14px;border:1px solid var(--line);border-radius:16px;background:rgba(19,10,30,.7);padding:16px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.section-head h2{font:700 17px/1 var(--display);text-transform:uppercase;letter-spacing:.05em;margin:0}.section-head span{color:var(--muted);font-size:10px}.activity{display:grid;gap:8px}.activity-empty{color:var(--muted);text-align:center;padding:12px;font-size:12px}.activity-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line)}.activity-row:first-child{border-top:0}.activity-dot{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:var(--surface-3);font-size:12px}.activity-copy b{display:block;font-size:11px}.activity-copy small{display:block;color:var(--muted);font-size:9px}.activity-amount{font-weight:800;font-size:11px;color:var(--lime)}.activity-amount.out{color:var(--pink-2)}.responsible{display:flex;align-items:flex-start;gap:12px;margin:16px 4px 0;color:#817588;font-size:10px}.responsible b{color:#b4a7bc}.age{border:1px solid #8e8395;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;flex:0 0 auto;font-weight:800;color:#b9aec0}.mobile-ads{display:none}footer{text-align:center;padding:18px 20px 34px;color:#675d70;font-size:9px;text-transform:uppercase;letter-spacing:.12em}
+    .modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;background:rgba(4,1,7,.82);backdrop-filter:blur(12px)}.modal[hidden]{display:none}.dialog{width:min(520px,100%);max-height:min(760px,92vh);overflow:auto;border:1px solid rgba(255,255,255,.15);border-radius:24px;background:linear-gradient(155deg,#20112e,#100817 75%);box-shadow:0 34px 100px #000;padding:22px}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.dialog-head h2{margin:0;font:800 28px/1 var(--display);text-transform:uppercase}.close{width:38px;height:38px;border:1px solid var(--line);border-radius:11px;background:transparent;color:var(--muted);font-size:20px}.close:hover{color:#fff;background:rgba(255,255,255,.05)}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:18px 0;padding:4px;border-radius:13px;background:#0d0613}.tabs button{border:0;border-radius:10px;background:transparent;color:var(--muted);padding:10px;font-weight:700}.tabs button.active{background:var(--surface-3);color:#fff;box-shadow:0 5px 15px rgba(0,0,0,.25)}.demo-note{border:1px solid rgba(72,229,255,.18);border-radius:12px;background:rgba(72,229,255,.06);color:#a9dbe4;padding:10px 12px;font-size:10px;margin-bottom:14px}.field{display:block;margin-bottom:13px;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.09em}.field input,.field select{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:12px;background:#0b0510;color:#fff;padding:13px 14px;outline:0}.field input:focus,.field select:focus{border-color:var(--pink)}.asset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 14px}.asset{border:1px solid var(--line);border-radius:13px;background:#0d0613;color:var(--muted);padding:10px 8px;font-weight:700}.asset span{display:block;font-size:17px;margin-bottom:3px}.asset.active{border-color:var(--pink);background:rgba(255,45,143,.09);color:#fff}.quote{display:flex;justify-content:space-between;gap:16px;padding:12px;border-radius:12px;background:#0d0613;color:var(--muted);font-size:11px;margin-bottom:13px}.quote b{color:var(--lime);text-align:right}.address-box{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:13px}.address{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px dashed rgba(255,255,255,.2);border-radius:12px;padding:12px;background:#0b0510;color:#c9bccf;font:11px ui-monospace,monospace}.copy{border:1px solid var(--line);border-radius:12px;background:var(--surface-3);color:#fff;padding:0 14px;font-weight:700}.confirm{width:100%;border:0;border-radius:13px;background:linear-gradient(110deg,var(--pink),#a530ff);color:#fff;padding:14px;font-weight:800;box-shadow:0 10px 25px rgba(255,45,143,.2)}.confirm:hover{filter:brightness(1.1)}.notice{border:1px solid rgba(255,209,92,.25);border-radius:12px;background:rgba(255,209,92,.07);color:#d8c997;padding:12px;font-size:10px;margin-bottom:13px}.notice strong{display:block;color:var(--gold);font-size:11px;margin-bottom:3px}.check{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;margin:12px 0 15px;color:#c0b4c7;font-size:10px}.check input{width:17px;height:17px;margin:1px 0;accent-color:var(--pink)}.error{min-height:17px;color:var(--red);font-size:10px;margin-top:-6px;margin-bottom:6px}.toast{position:fixed;left:50%;bottom:24px;z-index:90;transform:translate(-50%,20px);opacity:0;pointer-events:none;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:#21142d;color:#fff;padding:11px 15px;box-shadow:0 16px 50px #000;font-size:11px;font-weight:700;transition:.25s}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:1080px){.layout{grid-template-columns:minmax(0,720px);max-width:780px}.ad-rail{display:none}.mobile-ads{display:grid;grid-template-columns:repeat(4,minmax(145px,1fr));gap:10px;overflow-x:auto;margin:18px -4px 0;padding:4px 4px 10px;scrollbar-width:thin}.mobile-ads .ad{min-height:125px}.mobile-ads .ad-copy{font-size:12px}.mobile-ads .ad-brand{font-size:22px}.mobile-ads .one .ad-brand{font-size:30px}}@media(max-width:620px){.topbar{height:64px;padding:0 14px}.logo{font-size:20px}.logo-mark{width:30px;height:30px}.status-pill{display:none}.wallet-mini{font-size:11px}.layout{padding:16px 12px}.hero{margin-top:0}.hero p{font-size:11px}.stats{border-radius:13px}.stat{padding:10px}.stat strong{font-size:20px}.machine{border-radius:20px;padding:13px}.machine::before{inset:5px;border-radius:16px}.reel-frame{padding:5px;border-width:3px}.reels{gap:4px;padding:4px}.reel{grid-template-rows:repeat(3,clamp(65px,22vw,88px));gap:4px}.symbol{border-radius:8px;font-size:clamp(34px,13vw,54px)}.controls{grid-template-columns:1fr}.bet-control{min-height:52px}.spin{min-height:58px}.wallet-panel{grid-template-columns:1fr}.dialog{padding:17px;border-radius:19px}.mobile-ads{grid-template-columns:repeat(4,160px)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reel.spinning .symbol,.symbol.win{animation:none}.spin::after,.toast{transition:none}}
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>NeplyTegr kasino</h1>
-    <p class="sub">NeplyTegr Gamble</p>
-  </header>
-
-  <div class="stats">
-    <div><small>Zůstatek</small><b id="bal">1000</b></div>
-    <div><small>Celkový výsledek</small><b id="net">0</b></div>
+  <div class="ambient"></div>
+  <header class="topbar"><div class="logo"><span class="logo-mark">N</span><span>Neply<em>Tegr</em></span></div><div class="top-actions"><div class="status-pill">Kasino online</div><div class="wallet-mini">Peněženka <span><b id="miniBalance">1 000</b> TKN</span></div></div></header>
+  <div class="layout">
+    <aside class="ad-rail" aria-label="Reklamní partneři"><div class="rail-label">Reklama</div><article class="ad king"><div><div class="ad-brand">Kings<i>Bet</i></div><div class="ad-copy">Královský bonus <b>250 %</b></div></div><button class="ad-cta" data-ad="KingsBet">Zjistit více</button><small>18+ • Hrajte zodpovědně</small></article><article class="ad grand"><div><div class="ad-brand">GrandWin</div><div class="ad-copy">Grand freespiny každý pátek</div></div><button class="ad-cta" data-ad="GrandWin">Otevřít nabídku</button><small>Reklamní sdělení • 18+</small></article></aside>
+    <main>
+      <section class="hero"><div class="eyebrow">Neon slots • jedna výherní linie</div><h1>NeplyTegr <span>Jackpot</span></h1><p>Tři řady symbolů, rychlé sázky a krypto peněženka.</p></section>
+      <section class="stats" aria-label="Stav hry"><div class="stat"><small>Zůstatek</small><strong id="balance">1 000</strong></div><div class="stat"><small>Sázka</small><strong id="statBet">50</strong></div><div class="stat"><small>Výsledek</small><strong id="net">0</strong></div></section>
+      <section class="machine" aria-label="Výherní automat">
+        <div class="machine-head"><div class="jackpot"><small>Progresivní jackpot</small><strong id="jackpot">247 580 TKN</strong></div><div class="live-badge">● Live game</div></div>
+        <div class="reel-frame"><div class="reels" id="reels" aria-label="Tři válce automatu"><div class="payline" aria-hidden="true"></div><div class="reel" id="reel0"><div class="symbol">🍒</div><div class="symbol">👑</div><div class="symbol">🍋</div></div><div class="reel" id="reel1"><div class="symbol">💎</div><div class="symbol">7️⃣</div><div class="symbol">🔔</div></div><div class="reel" id="reel2"><div class="symbol">🍋</div><div class="symbol">👑</div><div class="symbol">🍒</div></div></div></div>
+        <div class="message" id="message" aria-live="polite">Nastavte sázku a roztočte válce.</div>
+        <div class="controls"><div class="bet-control" aria-label="Výše sázky"><button id="betDown" aria-label="Snížit sázku">−</button><div class="bet-value"><div><small>Sázka</small><strong><span id="bet">50</span> TKN</strong></div></div><button id="betUp" aria-label="Zvýšit sázku">+</button></div><button class="spin" id="spin">Zatočit</button></div>
+      </section>
+      <section class="wallet-panel" aria-label="Krypto peněženka"><button class="wallet-action" data-open="deposit"><span class="action-icon">↓</span><span><strong>Dobít přes krypto</strong><small>USDT, Bitcoin nebo Ethereum</small></span></button><button class="wallet-action withdraw" data-open="withdraw"><span class="action-icon">↑</span><span><strong>Vybrat do krypta</strong><small>Výběr do vlastní peněženky</small></span></button></section>
+      <section class="session-card"><div class="section-head"><h2>Poslední aktivita</h2><span>Aktuální relace</span></div><div class="activity" id="activity"><div class="activity-empty">Zatím žádné transakce.</div></div></section>
+      <section class="mobile-ads" aria-label="Reklamní partneři na mobilu"><article class="ad king"><div><div class="ad-brand">Kings<i>Bet</i></div><div class="ad-copy">Bonus <b>250 %</b></div></div><button class="ad-cta" data-ad="KingsBet">Více</button></article><article class="ad grand"><div><div class="ad-brand">GrandWin</div><div class="ad-copy">Grand freespiny</div></div><button class="ad-cta" data-ad="GrandWin">Více</button></article><article class="ad one"><div><div class="ad-brand">1WIN</div><div class="ad-copy">Startovní balíček</div></div><button class="ad-cta" data-ad="1WIN">Více</button></article><article class="ad drop"><div><div class="ad-brand">Musor Drop</div><div class="ad-copy">Drop dne</div></div><button class="ad-cta" data-ad="Musor Drop">Více</button></article></section>
+      <div class="responsible"><span class="age">18+</span><p><b>Hrajte zodpovědně.</b> Hra je pouze demonstrační. Nastavte si limity a nikdy nehrajte za prostředky, které si nemůžete dovolit ztratit.</p></div>
+    </main>
+    <aside class="ad-rail" aria-label="Reklamní partneři"><div class="rail-label">Doporučujeme</div><article class="ad one"><div><div class="ad-brand">1WIN</div><div class="ad-copy">Uvítací balíček až <b>100 000 Kč</b></div></div><button class="ad-cta" data-ad="1WIN">Hrát nyní</button><small>18+ • Platí podmínky</small></article><article class="ad drop"><div><div class="ad-brand">Musor Drop</div><div class="ad-copy">Tajný drop dne čeká</div></div><button class="ad-cta" data-ad="Musor Drop">Vyzvednout</button><small>Reklamní sdělení • 18+</small></article></aside>
   </div>
-
-  <div class="machine">
-    <div class="reels" aria-hidden="true">
-      <div class="reel gold" id="r0">♛</div><div class="reel" id="r1">7</div><div class="reel red" id="r2">♦</div>
-    </div>
-  </div>
-
-  <div class="msg" id="msg" aria-live="polite">Vyberte sázku a zatočte.</div>
-
-  <div class="bets" role="group" aria-label="Sázka">
-    <button data-b="10" aria-pressed="false">10</button>
-    <button data-b="50" aria-pressed="true">50</button>
-    <button data-b="100" aria-pressed="false">100</button>
-  </div>
-  <button id="spin">Zatočit</button>
-  <button class="topup" id="topup">Dobít tokeny</button>
-
-  <div id="gate" hidden role="dialog" aria-modal="true" aria-labelledby="gt">
-    <div class="box">
-      <div class="brand">NeplyPay <span>platební brána</span></div>
-      <div class="warn"><b>Gamble pro peníze.</b>Údaje kreditních karet odesíláme do číny a Izraelu aby jsme měli peníze Za případné problémy se omlouváme.</div>
-      <div class="card">
-        <h2 id="gt">Dobití tokenů</h2>
-        <div class="sum"><span>Obchodník</span><span>NeplyTegr kasino</span></div>
-        <div class="sum"><span>Kurz</span><span>1 Kč = 1 token</span></div>
-        <div class="sum"><span>K úhradě</span><b id="sum">500 Kč</b></div>
-      </div>
-      <div class="card">
-        <label>Částka v Kč<input id="am" inputmode="numeric" autocomplete="off" value="500"></label>
-        <div class="quick"><button data-a="100">100</button><button data-a="500">500</button><button data-a="1000">1000</button><button data-a="2000">2000</button></div>
-        <div class="err" id="err" role="alert"></div>
-        <label>Číslo karty<input id="cn" inputmode="numeric" autocomplete="off" placeholder="1234 5678 9012 3456"></label>
-        <div class="row">
-          <label>Platnost<input id="ce" autocomplete="off" placeholder="MM/RR"></label>
-          <label>CVC<input id="cc" inputmode="numeric" autocomplete="off" placeholder="123"></label>
-        </div>
-        <button class="ok" id="pay">Zaplatit 500 Kč</button>
-        <button class="back" id="back">Zpět do kasina</button>
-      </div>
-    </div>
-  </div>
-
-  <table>
-    <caption>Výherní tabulka</caption>
-    <tr><td class="gold">♛ ♛ ♛</td><td>Hlavní výhra</td><td>100×</td></tr>
-    <tr><td>7 7 7</td><td>Sedmičky</td><td>15×</td></tr>
-    <tr><td class="red">♦ ♦ ♦</td><td>Kára</td><td>10×</td></tr>
-    <tr><td class="red">♥ ♥ ♥</td><td>Srdce</td><td>5×</td></tr>
-    <tr><td>♣ ♣ ♣</td><td>Kříže</td><td>5×</td></tr>
-    <tr><td>–</td><td>Dva stejné symboly</td><td>½ sázky</td></tr>
-  </table>
-  <p class="foot">Hra je nastavena tak, aby banka v dlouhodobém průměru vyhrávala.</p>
-</div>
-
-<script>
-const SYM={'♥':'red','♣':'','♦':'red','7':'','♛':'gold'};
-const S=[...'♥♥♥♥♥♥♣♣♣♣♣♣♦♦♦♦777♛'];
-const mult={'♛':100,'7':15,'♦':10,'♥':5,'♣':5};
-const $=id=>document.getElementById(id);
-let bal=1000,net=0,bet=50,busy=false;
-const pick=()=>S[Math.floor(Math.random()*S.length)];
-const fmt=n=>(n>0?'+':n<0?'−':'')+Math.abs(n);
-
-function show(){
-  $('bal').textContent=bal;
-  const n=$('net');n.textContent=fmt(net);n.className=net<0?'neg':net>0?'pos':'';
-}
-function paint(i,s,spin){const r=$('r'+i);r.textContent=s;r.className='reel '+(SYM[s]||'')+(spin?' spin':'');}
-function setMsg(t,c){const m=$('msg');m.textContent=t;m.className='msg '+(c||'');}
-
-document.querySelectorAll('[data-b]').forEach(b=>b.onclick=()=>{
-  if(busy)return;bet=+b.dataset.b;
-  document.querySelectorAll('[data-b]').forEach(x=>x.setAttribute('aria-pressed',x===b));
-});
-
-$('spin').onclick=()=>{
-  if(busy)return;
-  if(bal<10){bal=1000;net=0;show();setMsg('Nová hra. Zůstatek obnoven na 1000.');return;}
-  if(bal<bet){setMsg('Zůstatek nestačí na tuto sázku.','lose');return;}
-  busy=true;$('spin').disabled=true;bal-=bet;net-=bet;show();setMsg('Točí se…');
-  const res=[pick(),pick(),pick()];
-  let stopped=0;
-  const timers=[0,1,2].map(i=>setInterval(()=>paint(i,pick(),true),70));
-  [0,1,2].forEach(i=>setTimeout(()=>{
-    clearInterval(timers[i]);paint(i,res[i],false);
-    if(++stopped===3)finish(res);
-  },700+i*450));
-};
-
-function finish(r){
-  let win=0;
-  if(r[0]===r[1]&&r[1]===r[2])win=bet*mult[r[0]];
-  else if(r[0]===r[1]||r[1]===r[2]||r[0]===r[2])win=Math.floor(bet/2);
-  bal+=win;net+=win;show();
-  if(win>bet)setMsg('Výhra '+win+' tokenů','win');
-  else if(win>0)setMsg('Vráceno '+win+' tokenů','lose');
-  else setMsg('Bez výhry','lose');
-  if(bal<10)setMsg('Zůstatek vyčerpán. Stiskněte Zatočit pro novou hru.','lose');
-  busy=false;$('spin').disabled=false;
-}
-const gate=$('gate');
-function amt(){const v=$('am').value.trim();return /^\d+$/.test(v)?+v:NaN;}
-function sync(){
-  const a=amt(),ok=a>=1&&a<=2000;
-  $('err').textContent=ok?'':'Zadejte částku od 1 do 2000 Kč.';
-  $('pay').disabled=!ok;$('pay').textContent=ok?'Zaplatit '+a+' Kč':'Zaplatit';
-  $('sum').textContent=ok?a+' Kč':'–';
-}
-function openGate(){gate.hidden=false;document.body.style.overflow='hidden';sync();$('am').focus();}
-function closeGate(){gate.hidden=true;document.body.style.overflow='';}
-$('topup').onclick=openGate;
-$('back').onclick=closeGate;
-$('am').oninput=sync;
-document.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{$('am').value=b.dataset.a;sync();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!gate.hidden)closeGate();});
-$('pay').onclick=()=>{
-  const a=amt();if(!(a>=1&&a<=2000))return;
-  $('pay').disabled=true;$('pay').textContent='Probíhá ověření…';
-  setTimeout(()=>{
-    ['cn','ce','cc'].forEach(i=>$(i).value='');
-    closeGate();bal+=a;show();
-    setMsg('Platba přijata. Vaše data byla úspěšně odeslána Izraelu a do Číny. +'+a+' tokenů.','win');
-  },1500);
-};
-show();
-</script>
+  <footer>© 2026 NeplyTegr • Ukázkové rozhraní • 18+ • Hrajte zodpovědně</footer>
+  <div class="modal" id="walletModal" hidden role="dialog" aria-modal="true" aria-labelledby="walletTitle"><div class="dialog"><div class="dialog-head"><h2 id="walletTitle">Krypto peněženka</h2><button class="close" id="closeModal" aria-label="Zavřít">×</button></div><div class="tabs" role="tablist"><button id="depositTab" role="tab" aria-selected="true">Dobít tokeny</button><button id="withdrawTab" role="tab" aria-selected="false">Vybrat tokeny</button></div><div class="demo-note">Toto je funkční demo rozhraní. Nevytváří skutečné blockchainové transakce ani nepřijímá reálné kryptoměny.</div>
+    <form id="depositPanel"><label class="field">Vyberte kryptoměnu</label><div class="asset-grid" data-group="depositAsset"><button type="button" class="asset active" data-asset="USDT" data-rate="25"><span>₮</span>USDT</button><button type="button" class="asset" data-asset="BTC" data-rate="1650000"><span>₿</span>BTC</button><button type="button" class="asset" data-asset="ETH" data-rate="95000"><span>Ξ</span>ETH</button></div><label class="field">Částka v kryptu<input id="depositAmount" type="number" min="0" step="any" value="20" inputmode="decimal"></label><div class="quote"><span>Obdržíte přibližně</span><b id="depositQuote">500 TKN</b></div><label class="field">Síť<select id="depositNetwork"><option>TRC20</option><option>ERC20</option><option>Bitcoin</option></select></label><label class="field">Vkladová adresa</label><div class="address-box"><div class="address" id="depositAddress">TNeplyTegrDemo8F3k2Q9Wallet</div><button class="copy" type="button" id="copyAddress">Kopírovat</button></div><div class="error" id="depositError"></div><button class="confirm" type="submit" id="confirmDeposit">Potvrdit odeslání krypta</button></form>
+    <form id="withdrawPanel" hidden><div class="notice"><strong>Důležité upozornění</strong>Transakci zpracovává třetí strana. Potvrzením výběru berete na vědomí, že NeplyTegr nemůže ručit za prostředky po jejich odeslání ani za chybu v adrese nebo zvolené síti.</div><label class="field">Vyberte kryptoměnu</label><div class="asset-grid" data-group="withdrawAsset"><button type="button" class="asset active" data-asset="USDT" data-rate="25"><span>₮</span>USDT</button><button type="button" class="asset" data-asset="BTC" data-rate="1650000"><span>₿</span>BTC</button><button type="button" class="asset" data-asset="ETH" data-rate="95000"><span>Ξ</span>ETH</button></div><label class="field">Počet tokenů<input id="withdrawAmount" type="number" min="100" step="1" value="500" inputmode="numeric"></label><div class="quote"><span>Odešleme přibližně</span><b id="withdrawQuote">20 USDT</b></div><label class="field">Síť<select id="withdrawNetwork"><option>TRC20</option><option>ERC20</option><option>Bitcoin</option></select></label><label class="field">Adresa vaší peněženky<input id="withdrawAddress" autocomplete="off" placeholder="Vložte adresu peněženky"></label><label class="check"><input type="checkbox" id="withdrawConsent"><span>Rozumím, že transakci zpracovává třetí strana, a potvrzuji správnost adresy a sítě.</span></label><div class="error" id="withdrawError"></div><button class="confirm" type="submit" id="confirmWithdraw">Potvrdit výběr</button></form>
+  </div></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const SYMBOLS=['🍒','🍒','🍒','🍋','🍋','🍋','🔔','🔔','💎','7️⃣','👑'];const MULTIPLIERS={'🍒':4,'🍋':5,'🔔':8,'💎':12,'7️⃣':25,'👑':100};const BETS=[10,25,50,100,250,500];const ADDRESSES={USDT:'TNeplyTegrDemo8F3k2Q9Wallet',BTC:'bc1qneplytegrdemowallet9c7a',ETH:'0xNeplyTegrDemo42a8F7e91'};const $=id=>document.getElementById(id);const number=value=>new Intl.NumberFormat('cs-CZ',{maximumFractionDigits:6}).format(value);const randomSymbol=()=>SYMBOLS[crypto.getRandomValues(new Uint32Array(1))[0]%SYMBOLS.length];const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));let balance=1000,net=0,betIndex=2,spinning=false,jackpot=247580;let depositAsset={name:'USDT',rate:25},withdrawAsset={name:'USDT',rate:25};const activities=[];
+    function renderStats(){$('balance').textContent=number(balance);$('miniBalance').textContent=number(balance);$('bet').textContent=BETS[betIndex];$('statBet').textContent=BETS[betIndex];$('net').textContent=(net>0?'+':net<0?'−':'')+number(Math.abs(net));$('net').className=net>0?'positive':net<0?'negative':'';$('jackpot').textContent=number(jackpot)+' TKN'}function setMessage(text,state=''){$('message').textContent=text;$('message').className='message '+state}function setColumn(index,values){const cells=$('reel'+index).querySelectorAll('.symbol');cells.forEach((cell,i)=>{cell.textContent=values[i];cell.classList.remove('win')})}function addActivity(icon,title,detail,amount,out=false){activities.unshift({icon,title,detail,amount,out});activities.splice(4);$('activity').innerHTML=activities.map(a=>`<div class="activity-row"><span class="activity-dot">${a.icon}</span><span class="activity-copy"><b>${a.title}</b><small>${a.detail}</small></span><span class="activity-amount ${a.out?'out':''}">${a.amount}</span></div>`).join('')}function toast(text){const t=$('toast');t.textContent=text;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2300)}
+    $('betDown').addEventListener('click',()=>{if(!spinning&&betIndex>0){betIndex--;renderStats()}});$('betUp').addEventListener('click',()=>{if(!spinning&&betIndex<BETS.length-1){betIndex++;renderStats()}});$('spin').addEventListener('click',spin);async function spin(){const currentBet=BETS[betIndex];if(spinning)return;if(balance<currentBet){setMessage('Nemáte dostatek tokenů. Dobijte peněženku.','lose');return}spinning=true;$('spin').disabled=true;$('betDown').disabled=true;$('betUp').disabled=true;balance-=currentBet;net-=currentBet;jackpot+=Math.max(1,Math.floor(currentBet*.03));renderStats();setMessage('Válce se roztáčejí…');const results=Array.from({length:3},()=>[randomSymbol(),randomSymbol(),randomSymbol()]);const timers=[0,1,2].map(index=>{$('reel'+index).classList.add('spinning');return setInterval(()=>setColumn(index,[randomSymbol(),randomSymbol(),randomSymbol()]),72)});for(let index=0;index<3;index++){await wait(index===0?760:360);clearInterval(timers[index]);setColumn(index,results[index]);$('reel'+index).classList.remove('spinning')}const line=results.map(column=>column[1]);let win=0;if(line[0]===line[1]&&line[1]===line[2])win=currentBet*MULTIPLIERS[line[0]];else if(line[0]===line[1]||line[1]===line[2]||line[0]===line[2])win=Math.ceil(currentBet*.5);if(win){balance+=win;net+=win;document.querySelectorAll('.reel .symbol:nth-child(2)').forEach(c=>c.classList.add('win'));setMessage(`Výhra ${number(win)} tokenů!`,'win');addActivity('✦','Výhra na automatu','Výherní linie '+line.join(' '),'+'+number(win)+' TKN')}else setMessage('Tentokrát bez výhry. Zkuste další otočku.','lose');spinning=false;$('spin').disabled=false;$('betDown').disabled=false;$('betUp').disabled=false;renderStats()}
+    const modal=$('walletModal');function switchPanel(type){const deposit=type==='deposit';$('depositPanel').hidden=!deposit;$('withdrawPanel').hidden=deposit;$('depositTab').classList.toggle('active',deposit);$('withdrawTab').classList.toggle('active',!deposit);$('depositTab').setAttribute('aria-selected',deposit);$('withdrawTab').setAttribute('aria-selected',!deposit);$('walletTitle').textContent=deposit?'Dobít přes krypto':'Výběr do krypta'}function openWallet(type){switchPanel(type);modal.hidden=false;document.body.style.overflow='hidden';$('closeModal').focus()}function closeWallet(){modal.hidden=true;document.body.style.overflow=''}document.querySelectorAll('[data-open]').forEach(button=>button.addEventListener('click',()=>openWallet(button.dataset.open)));$('depositTab').addEventListener('click',()=>switchPanel('deposit'));$('withdrawTab').addEventListener('click',()=>switchPanel('withdraw'));$('closeModal').addEventListener('click',closeWallet);modal.addEventListener('click',event=>{if(event.target===modal)closeWallet()});document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!modal.hidden)closeWallet()});
+    document.querySelectorAll('[data-group]').forEach(group=>group.querySelectorAll('.asset').forEach(button=>button.addEventListener('click',()=>{group.querySelectorAll('.asset').forEach(item=>item.classList.toggle('active',item===button));const value={name:button.dataset.asset,rate:Number(button.dataset.rate)};if(group.dataset.group==='depositAsset'){depositAsset=value;$('depositAddress').textContent=ADDRESSES[value.name];updateDepositQuote()}else{withdrawAsset=value;updateWithdrawQuote()}})));function updateDepositQuote(){const amount=Number($('depositAmount').value);$('depositQuote').textContent=Number.isFinite(amount)&&amount>0?number(Math.floor(amount*depositAsset.rate))+' TKN':'—'}function updateWithdrawQuote(){const amount=Number($('withdrawAmount').value);$('withdrawQuote').textContent=Number.isFinite(amount)&&amount>0?number(amount/withdrawAsset.rate)+' '+withdrawAsset.name:'—'}$('depositAmount').addEventListener('input',updateDepositQuote);$('withdrawAmount').addEventListener('input',updateWithdrawQuote);$('copyAddress').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('depositAddress').textContent);toast('Adresa zkopírována')}catch{toast('Označte a zkopírujte adresu ručně')}});
+    $('depositPanel').addEventListener('submit',async event=>{event.preventDefault();const amount=Number($('depositAmount').value),tokens=Math.floor(amount*depositAsset.rate);$('depositError').textContent='';if(!Number.isFinite(amount)||amount<=0||tokens<1){$('depositError').textContent='Zadejte platnou částku.';return}const button=$('confirmDeposit');button.disabled=true;button.textContent='Čekáme na potvrzení sítě…';await wait(1100);balance+=tokens;renderStats();addActivity('↓','Krypto vklad',`${number(amount)} ${depositAsset.name} • ${$('depositNetwork').value}`,'+'+number(tokens)+' TKN');button.disabled=false;button.textContent='Potvrdit odeslání krypta';closeWallet();setMessage(`Peněženka dobita o ${number(tokens)} tokenů.`,'win');toast('Vklad byl v demu potvrzen')});
+    $('withdrawPanel').addEventListener('submit',async event=>{event.preventDefault();const amount=Math.floor(Number($('withdrawAmount').value)),address=$('withdrawAddress').value.trim();$('withdrawError').textContent='';if(!Number.isFinite(amount)||amount<100){$('withdrawError').textContent='Minimální výběr je 100 tokenů.';return}if(amount>balance){$('withdrawError').textContent='Na výběr nemáte dostatek tokenů.';return}if(address.length<12){$('withdrawError').textContent='Zadejte platnou adresu peněženky.';return}if(!$('withdrawConsent').checked){$('withdrawError').textContent='Před výběrem potvrďte upozornění.';return}const button=$('confirmWithdraw');button.disabled=true;button.textContent='Předáváme třetí straně…';await wait(1200);balance-=amount;renderStats();addActivity('↑','Krypto výběr',`${number(amount/withdrawAsset.rate)} ${withdrawAsset.name} • zpracovává se`,'−'+number(amount)+' TKN',true);button.disabled=false;button.textContent='Potvrdit výběr';$('withdrawAddress').value='';$('withdrawConsent').checked=false;closeWallet();setMessage('Výběr byl předán třetí straně ke zpracování.');toast('Výběr je v demu ve zpracování')});document.querySelectorAll('[data-ad]').forEach(button=>button.addEventListener('click',()=>toast(`${button.dataset.ad}: ukázková reklamní plocha`)));renderStats();updateDepositQuote();updateWithdrawQuote();switchPanel('deposit');
+  </script>
 </body>
 </html>
