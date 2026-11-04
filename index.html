@@ -335,6 +335,20 @@
             color: #ffed4e;
         }
 
+        .project-grid {
+            grid-auto-flow: dense;
+        }
+
+        .project-featured {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 800px) {
+            .project-featured {
+                grid-column: auto;
+            }
+        }
+
         .rental-section {
             max-width: 1200px;
             margin: 6rem auto;
@@ -579,6 +593,12 @@
                 <h3>Detektor lži</h3>
                 <p>Zjistěte, zda je váš výrok pravdivý. Rychle, jednoduše a bez zbytečných otázek.</p>
                 <a href="detektor/index.html" class="project-link">Zobrazit projekt →</a>
+            </div>
+
+            <div class="project-card project-featured">
+                <h3>Hard Steel War</h3>
+                <p>Tankové bitvy, ve kterých rozhoduje ocel, pancíř a muška. Vyber si stroj, vyjeď na bojiště a ukaž, kdo tu velí.</p>
+                <a href="https://hsw.neplytegr.cz" class="project-link" target="_blank" rel="noopener">Do boje →</a>
             </div>
 
             <div class="project-card">
